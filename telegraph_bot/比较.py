@@ -8,31 +8,34 @@ import sys
 from telegraph.exceptions import TelegraphException
 
 
+switch_del_content_words = True   #删除内容文字，只保留图片
+
 # 要复制的 telegraph 页面列表
 SOURCE_URLS = []
-TXT_FILE = r"D:\project\pythonLL\telegraph_links_福利姬2.txt"
+TXT_FILE = r"D:\project\pythonLL\telegraph_links_福利姬.txt"
 # 优先从 txt 文件读取
 if TXT_FILE and os.path.exists(TXT_FILE):
     with open(TXT_FILE, "r", encoding="utf-8") as f:
         SOURCE_URLS = [line.strip() for line in f if line.strip()]
 else:
     # 如果没有 txt，就用内置的列表
-    SOURCE_URLS = [
-
-    ]
+    SOURCE_URLS = [ ]
 
 # SOURCE_URLS = [
-#   "https://telegra.ph/Grand-Pli%C3%A9-Erohamu-Chikubi-Batsu-%E4%B9%B3%E5%A4%B4%E6%83%A9%E7%BD%9A-Chinese-%E6%9A%B4%E7%A2%A7%E6%B1%89%E5%8C%96%E7%BB%84-08-24",]
+# "https://telegra.ph/BRbINz-09-05",
+# "https://telegra.ph/mymUJf-08-28",
+#
+# ]
 
-# # 新的作者信息
-# AUTHOR_NAME = "御女宫福利姬频道←点击关注"
-# AUTHOR_URL = "https://erik7761269084-arch.github.io/-/%E7%A6%8F%E5%88%A9%E5%A7%AC%E9%A2%91%E9%81%93%E6%80%BB%E7%9B%AE%E5%BD%95/index.html"
+# 新的作者信息
+AUTHOR_NAME = "御女宫福利姬频道←点击关注"
+AUTHOR_URL = "https://erik7761269084-arch.github.io/-/%E7%A6%8F%E5%88%A9%E5%A7%AC%E9%A2%91%E9%81%93%E6%80%BB%E7%9B%AE%E5%BD%95/index.html"
 
 # AUTHOR_NAME = "御女宫漫画频道←点击关注"
 # AUTHOR_URL = "https://erik7761269084-arch.github.io/-/%E6%BC%AB%E7%94%BB%E9%A2%91%E9%81%93%E6%80%BB%E7%9B%AE%E5%BD%95/index.html"
 
-AUTHOR_NAME = "御女宫小说频道←点击关注"
-AUTHOR_URL = "https://erik7761269084-arch.github.io/-/%E5%B0%8F%E8%AF%B4%E9%A2%91%E9%81%93%E6%80%BB%E7%9B%AE%E5%BD%95/index.html"
+# AUTHOR_NAME = "御女宫小说频道←点击关注"
+# AUTHOR_URL = "https://erik7761269084-arch.github.io/-/%E5%B0%8F%E8%AF%B4%E9%A2%91%E9%81%93%E6%80%BB%E7%9B%AE%E5%BD%95/index.html"
 
 
 ALLOWED_TAGS = {
@@ -56,6 +59,19 @@ def clean_content(article):
     for tag in article.find_all(True):
         if tag.name not in ALLOWED_TAGS:
             tag.unwrap()
+
+    if switch_del_content_words:
+
+        NEWALLOWED_TAGS = ["figure", "img"]
+
+        # 遍历所有标签
+        for tag in article.find_all(True):
+            if tag.name not in NEWALLOWED_TAGS:
+                tag.decompose()  # 删除标签及内容
+
+        # # 删除 <strong>、<blockquote> 里的内容
+        # for tag in article.find_all(["strong", "blockquote"]):
+        #     tag.decompose()
 
     return "".join(str(child) for child in article.contents)
 
@@ -87,6 +103,7 @@ def extract_title(header_tag):
         "[BLUECAKE]",
         "[Cosplay]",
         "[秀人XiuRen]",
+        "[福利COS]",
         "[喵糖映画]",
         "[萝莉COS]",
         "[尤蜜YouMi]",
@@ -108,6 +125,26 @@ def extract_title(header_tag):
         "[SSA丝社]",
         "[蜜丝MISSLEG]",
         "[Ligui丽柜]",
+        "[秀人XiuRen]",
+        "[语画界XIAOYU]",
+        "[秀人Xiuren]",
+        "[蜜桃社MiiTao]",
+        "[爱蜜社IMiss]",
+        "[花漾HuaYang]",
+        "[尤蜜荟YouMi]",
+        "[無修正]",
+        "[暴碧汉化组]",
+        "[5DK个人汉化]",
+        "[中国語]",
+        "[猫萌榜MICAT]",
+        "[尤果Ugirls]",
+        "[FEILIN嗲囡囡]",
+        "[TASTE顽味生活]",
+        "[尤果圈爱尤物]",
+        "[Fantia]",
+        "[Xiuren]",
+        "fantia",
+        "[]",
         "超清",
         "COS少女",
         "可爱人气Coser",
@@ -125,15 +162,14 @@ def extract_title(header_tag):
         "性感动漫Coser@",
         "萌宠博主",
         "微博萌妹",
-        " 电喵女神",
+        "美女主播"
+        "电喵女神",
         "喵糖映画-",
+        "@"
         "马里奥小屋",
         "动漫博主",
         "可爱妹子",
         "斗鱼主播",
-        "[Fantia]",
-        "fantia",
-        "[]",
         "二次元巨乳美女",
         "二次元巨乳",
         "阳光美少女",
@@ -146,10 +182,8 @@ def extract_title(header_tag):
         "次元少女",
         "御女宫漫画(彩色)",
         "御女宫漫画(黑白)",
-        "[無修正]",
-        "[暴碧汉化组]",
-        "[5DK个人汉化]",
-        "[中国語]",
+        "MyGirl美媛馆",
+        "人气Coser",
         "动漫博主"
     ]
 
@@ -185,6 +219,7 @@ with open(result_html, "w", encoding="utf-8") as f_html:
             ):
                 # 有内容就取它
                 title = header_tag.contents[1].contents[0]
+                title = extract_title(title)
             else:
                 # 否则调用函数
                 title = extract_title(header_tag)
@@ -220,6 +255,3 @@ with open(result_html, "w", encoding="utf-8") as f_html:
             f_html.write(f"<p>❌ 处理 {url} 出错: {e}</p>\n")
 
 print(f"✅ 已生成 HTML 文件: {result_html}")
-
-
-

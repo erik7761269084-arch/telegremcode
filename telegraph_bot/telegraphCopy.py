@@ -19,12 +19,13 @@ if TXT_FILE and os.path.exists(TXT_FILE):
         SOURCE_URLS = [line.strip() for line in f if line.strip()]
 else:
     # 如果没有 txt，就用内置的列表
-    SOURCE_URLS = [
+    SOURCE_URLS = [ ]
 
-    ]
-#
 # SOURCE_URLS = [
-#   "https://telegra.ph/%E6%9F%9A%E6%9C%A8-08-29"]
+# "https://telegra.ph/BRbINz-09-05",
+# "https://telegra.ph/mymUJf-08-28",
+#
+# ]
 
 # 新的作者信息
 AUTHOR_NAME = "御女宫福利姬频道←点击关注"
@@ -35,7 +36,7 @@ AUTHOR_URL = "https://erik7761269084-arch.github.io/-/%E7%A6%8F%E5%88%A9%E5%A7%A
 
 # AUTHOR_NAME = "御女宫小说频道←点击关注"
 # AUTHOR_URL = "https://erik7761269084-arch.github.io/-/%E5%B0%8F%E8%AF%B4%E9%A2%91%E9%81%93%E6%80%BB%E7%9B%AE%E5%BD%95/index.html"
-#
+
 
 ALLOWED_TAGS = {
     "p", "br", "strong", "b", "i", "em", "u", "a",
@@ -81,10 +82,10 @@ def extract_title(header_tag):
     text = header_tag.get_text(strip=True)
 
     # 去掉广告/副标题/日期等
-    text = re.split(r"cosplay写真频道|每日百合本推送|风月文学|←点击关注|百万图集免费看|👉🏻.*", text)[0].strip()
+    text = re.split(r"cosplay写真频道|每日百合本推送|风月文学|←点击关注|百万图集免费看|������������.*", text)[0].strip()
 
     # 再次截断，防止漏掉广告词
-    text = re.split(r"(cosplay|频道|每日百合本推送|风月文学|Isabelle|http|←点击关注|百万图集免费看|👉🏻.*)", text, 1)[0].strip()
+    text = re.split(r"(cosplay|频道|每日百合本推送|风月文学|Isabelle|http|←点击关注|百万图集免费看|������������.*)", text, 1)[0].strip()
 
     # 定义要删除的广告关键词（直接切掉，不影响后面内容）
     remove_keywords = [
@@ -102,6 +103,7 @@ def extract_title(header_tag):
         "[BLUECAKE]",
         "[Cosplay]",
         "[秀人XiuRen]",
+        "[福利COS]",
         "[喵糖映画]",
         "[萝莉COS]",
         "[尤蜜YouMi]",
@@ -123,6 +125,26 @@ def extract_title(header_tag):
         "[SSA丝社]",
         "[蜜丝MISSLEG]",
         "[Ligui丽柜]",
+        "[秀人XiuRen]",
+        "[语画界XIAOYU]",
+        "[秀人Xiuren]",
+        "[蜜桃社MiiTao]",
+        "[爱蜜社IMiss]",
+        "[花漾HuaYang]",
+        "[尤蜜荟YouMi]",
+        "[無修正]",
+        "[暴碧汉化组]",
+        "[5DK个人汉化]",
+        "[中国語]",
+        "[猫萌榜MICAT]",
+        "[尤果Ugirls]",
+        "[FEILIN嗲囡囡]",
+        "[TASTE顽味生活]",
+        "[尤果圈爱尤物]",
+        "[Fantia]",
+        "[Xiuren]",
+        "fantia",
+        "[]",
         "超清",
         "COS少女",
         "可爱人气Coser",
@@ -140,8 +162,10 @@ def extract_title(header_tag):
         "性感动漫Coser@",
         "萌宠博主",
         "微博萌妹",
-        " 电喵女神",
+        "美女主播"
+        "电喵女神",
         "喵糖映画-",
+        "@"
         "马里奥小屋",
         "动漫博主",
         "可爱妹子",
@@ -164,6 +188,8 @@ def extract_title(header_tag):
         "[無修正]",
         "[暴碧汉化组]",
         "[5DK个人汉化]",
+        "MyGirl美媛馆",
+        "人气Coser",
         "[中国語]",
         "动漫博主"
     ]
@@ -200,6 +226,7 @@ with open(result_html, "w", encoding="utf-8") as f_html:
             ):
                 # 有内容就取它
                 title = header_tag.contents[1].contents[0]
+                title = extract_title(title)
             else:
                 # 否则调用函数
                 title = extract_title(header_tag)
