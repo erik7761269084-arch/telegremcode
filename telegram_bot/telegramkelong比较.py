@@ -12,27 +12,27 @@ from telethon.errors import ChatForwardsRestrictedError, FloodWaitError, WorkerB
 from bs4 import BeautifulSoup # 使用 BeautifulSoup 解析 HTML
 
 # 使用你从 https://my.telegram.org/auth 获取的API ID和API Hash
-api_id = 28044957
-api_hash = '0ba92315766a94f4b2b1837d5c6df66e'
+api_id = 21188192
+api_hash = 'e6f77c825e2c10fffdf6a15ffd319193'
 
 # 使用你的手机号码
-phone_number = '+447761269084'
+phone_number = '+4367844176129'
 
 # 源频道和目标频道的ID
-# Peertype = 'me'              # 获取 "我的收藏" 用户本身收藏夹
+# Peertype = 'me':               # 获取 "我的收藏" 用户本身收藏夹
 # Peertype = 'robot'             # 对象是机器人的类型的话
 # Peertype = 'PeerUser'          # 个人聊天类型
 Peertype = 'PeerChannel'        #频道类型
 
 
-source_channel_id = 1424384184
-target_channel_id = 2934360954
+source_channel_id = 1858127817
+target_channel_id = 3070957658
 
 global_send_count = 1   #转发数量最大值数组；
 
 # 指定从哪个 ID 开始和结束
-global_start_id = 1
-global_end_id = 135723
+global_start_id = 346
+global_end_id = 1957
 global_end_id += 1  # 最后一个加一，不然会漏掉最后一个
 
 # 记录最终转发的 ID 号
@@ -69,7 +69,7 @@ NUMBER_CAP = 1              # 序号标签
 switch_add_label = False     # 对文字前面加上# 标签
 switch_add_title = False  # 当标题为空时，添加文件名为标题开关
 switch_string = False  # 自定义标签开关
-global_string = "\n#旧录屏 (2022年之前作品)"
+global_string = "\n#欧美口交 #深喉"
 switch_number = False    # 初始化 NUMBER_COUNT，从 1 开始
 NUMBER_COUNT = 1        #从1开始标签号
 switch_TT_link = False
@@ -573,16 +573,16 @@ def remove_ads(text):
     #特殊处理，现将添加的 "" 去除
     to_remove_list = [
         '搜索引擎一 @ttshaonvchat 搜索引擎二 @ttsososo 搜索引擎三 @ttsouyisou TT防失联总频道 @ttzongb',
-        '[🫥欢迎加入足控恋足会员群]',
-        '👇  # 输入动漫名发送到搜索群👇',
-        '🌿  # 万物可搜， #白嫖更多资源🌿',
+        '[������欢迎加入足控恋足会员群]',
+        '������  # 输入动漫名发送到搜索群������',
+        '������  # 万物可搜， #白嫖更多资源������',
         '== == == == == == == == == == == ==',
-        '🥵  # 女神ai去衣， #点击进群意淫🥵',
+        '������  # 女神ai去衣， #点击进群意淫������',
         '✨  # 入会福利',
-        '🍕  # 无码肉番➕3D成人➕ #绝版漫图',
-        '👇🏻  # 点击下方链接 #自助购买入会👇🏻',
-        '👅AI去衣换脸软件  # 点击了解👅',
-        '[👠足控视频群更多美脚恋足足交舔脚资源，欢迎加入😍😍😍😍]',
+        '������  # 无码肉番➕3D成人➕ #绝版漫图',
+        '������������  # 点击下方链接 #自助购买入会������������',
+        '������AI去衣换脸软件  # 点击了解������',
+        '[������足控视频群更多美脚恋足足交舔脚资源，欢迎加入������������������������]',
         '[  # 全站导航]',
         '[#全站导航]',
         '[ #商务合作]',
@@ -640,7 +640,7 @@ def remove_ads(text):
     keywords += ['သွင်း', 'ပေး', 'ဂိမ်း']
 
     #特殊图标
-    keywords +=['🔞', '👇', '🇯 🇴 🇮 🇳',  '𝗖𝗵𝗮𝗻𝗻𝗲𝗹', '❤', '👉', '👈', '🤵', '📞', '👉🏻', '📱', '💸','⚽', '🎲', '👨‍❤️‍👨', '🎁', '🏦', '🎉', '🏧', '🤗', '💵', '➖', '🔍', '💰', '📣']
+    keywords +=['������', '������', '������ ������ ������ ������',  '������������������������������������������', '❤', '������', '������', '������', '������', '������������', '������', '������','⚽', '������', '������‍❤️‍������', '������', '������', '������', '������', '������', '������', '➖', '������', '������', '������']
 
     #临时
     keywords += ['友情提醒', '= =', '永久ID', '首字母', '曝光投稿看我主页', 'Download', 'DOWNLOAD', 'Full', 'Patreon', 'Link', 'VOL', 'Nhóm tài nguyên ảnh AI chất lượng tốt tại đây', '★', ]
