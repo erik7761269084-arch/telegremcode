@@ -60,6 +60,7 @@ directory = r"D:\project\python\unique_filename"  # 文件存放路径
 
 # HTML 文件路径
 send_html_file = r"E:\links.html"
+telegraph_extra_tag = "#漫画目录一区"
 
 # 定义全局变量
 switch_caption = True       #是否对标题进行处理开关
@@ -256,7 +257,7 @@ async def main():
             current_media_group = []
             current_media_group_title = None
 
-                # 发布超链接到频道
+            # 发布超链接到频道
             if switch_send_html:
                 # 读取文件内容（HTML 格式）
                 with open(send_html_file, "r", encoding="utf-8") as f:
@@ -268,7 +269,7 @@ async def main():
                     url = a_tag.get("href")
                     text = a_tag.get_text(strip=True)
                     if url and text:
-                        message = f'<a href="{url}">{text}</a>'
+                        message = f'<a href="{url}">{text}</a>\n{telegraph_extra_tag}'
                         await client.send_message(target_entity, message, parse_mode='html')
                         print(f"发布超链接 {text}")
                 print(f"超链接发布完毕")

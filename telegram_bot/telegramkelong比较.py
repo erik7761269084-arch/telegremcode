@@ -26,7 +26,7 @@ Peertype = 'PeerChannel'        #频道类型
 
 
 source_channel_id = 1424384184
-target_channel_id = 2711405434
+target_channel_id = 2934360954
 
 global_send_count = 1   #转发数量最大值数组；
 
@@ -60,6 +60,7 @@ directory = r"D:\project\python\unique_filename"  # 文件存放路径
 
 # HTML 文件路径
 send_html_file = r"E:\links.html"
+telegraph_extra_tag = "#漫画目录一区"
 
 # 定义全局变量
 switch_caption = True       #是否对标题进行处理开关
@@ -256,7 +257,7 @@ async def main():
             current_media_group = []
             current_media_group_title = None
 
-                # 发布超链接到频道
+            # 发布超链接到频道
             if switch_send_html:
                 # 读取文件内容（HTML 格式）
                 with open(send_html_file, "r", encoding="utf-8") as f:
@@ -268,7 +269,7 @@ async def main():
                     url = a_tag.get("href")
                     text = a_tag.get_text(strip=True)
                     if url and text:
-                        message = f'<a href="{url}">{text}</a>'
+                        message = f'<a href="{url}">{text}</a>\n{telegraph_extra_tag}'
                         await client.send_message(target_entity, message, parse_mode='html')
                         print(f"发布超链接 {text}")
                 print(f"超链接发布完毕")
@@ -572,16 +573,16 @@ def remove_ads(text):
     #特殊处理，现将添加的 "" 去除
     to_remove_list = [
         '搜索引擎一 @ttshaonvchat 搜索引擎二 @ttsososo 搜索引擎三 @ttsouyisou TT防失联总频道 @ttzongb',
-        '[������欢迎加入足控恋足会员群]',
-        '������  # 输入动漫名发送到搜索群������',
-        '������  # 万物可搜， #白嫖更多资源������',
+        '[🫥欢迎加入足控恋足会员群]',
+        '👇  # 输入动漫名发送到搜索群👇',
+        '🌿  # 万物可搜， #白嫖更多资源🌿',
         '== == == == == == == == == == == ==',
-        '������  # 女神ai去衣， #点击进群意淫������',
+        '🥵  # 女神ai去衣， #点击进群意淫🥵',
         '✨  # 入会福利',
-        '������  # 无码肉番➕3D成人➕ #绝版漫图',
-        '������������  # 点击下方链接 #自助购买入会������������',
-        '������AI去衣换脸软件  # 点击了解������',
-        '[������足控视频群更多美脚恋足足交舔脚资源，欢迎加入������������������������]',
+        '🍕  # 无码肉番➕3D成人➕ #绝版漫图',
+        '👇🏻  # 点击下方链接 #自助购买入会👇🏻',
+        '👅AI去衣换脸软件  # 点击了解👅',
+        '[👠足控视频群更多美脚恋足足交舔脚资源，欢迎加入😍😍😍😍]',
         '[  # 全站导航]',
         '[#全站导航]',
         '[ #商务合作]',
@@ -639,7 +640,7 @@ def remove_ads(text):
     keywords += ['သွင်း', 'ပေး', 'ဂိမ်း']
 
     #特殊图标
-    keywords +=['������', '������', '������ ������ ������ ������',  '������������������������������������������', '❤', '������', '������', '������', '������', '������������', '������', '������','⚽', '������', '������‍❤️‍������', '������', '������', '������', '������', '������', '������', '➖', '������', '������', '������']
+    keywords +=['🔞', '👇', '🇯 🇴 🇮 🇳',  '𝗖𝗵𝗮𝗻𝗻𝗲𝗹', '❤', '👉', '👈', '🤵', '📞', '👉🏻', '📱', '💸','⚽', '🎲', '👨‍❤️‍👨', '🎁', '🏦', '🎉', '🏧', '🤗', '💵', '➖', '🔍', '💰', '📣']
 
     #临时
     keywords += ['友情提醒', '= =', '永久ID', '首字母', '曝光投稿看我主页', 'Download', 'DOWNLOAD', 'Full', 'Patreon', 'Link', 'VOL', 'Nhóm tài nguyên ảnh AI chất lượng tốt tại đây', '★', ]
