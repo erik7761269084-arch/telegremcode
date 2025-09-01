@@ -9,28 +9,30 @@ from PIL import Image
 from telethon import TelegramClient, events, types
 from telethon.tl.types import  PeerUser, PeerChannel, PeerChat
 from telethon.errors import ChatForwardsRestrictedError, FloodWaitError, WorkerBusyTooLongRetryError
+from bs4 import BeautifulSoup # 使用 BeautifulSoup 解析 HTML
+
 # 使用你从 https://my.telegram.org/auth 获取的API ID和API Hash
-api_id = 21188192
-api_hash = 'e6f77c825e2c10fffdf6a15ffd319193'
+api_id = 28044957
+api_hash = '0ba92315766a94f4b2b1837d5c6df66e'
 
 # 使用你的手机号码
-phone_number = '+4367844176129'
+phone_number = '+447761269084'
 
 # 源频道和目标频道的ID
-# Peertype = 'me':               # 获取 "我的收藏" 用户本身收藏夹
+# Peertype = 'me'              # 获取 "我的收藏" 用户本身收藏夹
 # Peertype = 'robot'             # 对象是机器人的类型的话
 # Peertype = 'PeerUser'          # 个人聊天类型
 Peertype = 'PeerChannel'        #频道类型
 
 
-source_channel_id = 1858127817
-target_channel_id = 3070957658
+source_channel_id = 1424384184
+target_channel_id = 2711405434
 
 global_send_count = 1   #转发数量最大值数组；
 
 # 指定从哪个 ID 开始和结束
-global_start_id = 346
-global_end_id = 1957
+global_start_id = 1
+global_end_id = 135723
 global_end_id += 1  # 最后一个加一，不然会漏掉最后一个
 
 # 记录最终转发的 ID 号
@@ -47,6 +49,7 @@ current_media_group_title = None
 client = None
 
 # 标题最大长度
+MAX_CAPTION_LENGTH = 1024
 MAX_LENGTH = 1024
 
 # 创建客户端开发账号更换开关
@@ -55,15 +58,17 @@ switch_account = False  # True
 # 文件路径，用于记录已转发的消息ID
 directory = r"D:\project\python\unique_filename"  # 文件存放路径
 
-# 定义全局变量
+# HTML 文件路径
+send_html_file = r"E:\links.html"
 
+# 定义全局变量
 switch_caption = True       #是否对标题进行处理开关
-switch_del_number = True        # 去除开头的纯数字（可带空格）
+switch_del_number = False    # 去除开头的纯数字（可带空格）
 NUMBER_CAP = 1              # 序号标签
 switch_add_label = False     # 对文字前面加上# 标签
 switch_add_title = False  # 当标题为空时，添加文件名为标题开关
 switch_string = False  # 自定义标签开关
-global_string = "\n#欧美口交 #深喉"
+global_string = "\n#旧录屏 (2022年之前作品)"
 switch_number = False    # 初始化 NUMBER_COUNT，从 1 开始
 NUMBER_COUNT = 1        #从1开始标签号
 switch_TT_link = False
@@ -73,9 +78,11 @@ global_TT_link = '\n[极搜导航](http://t.me/ttshaonvchat)\n[soso导航](http:
 forwarded_ids_file = os.path.join(directory, str(target_channel_id) + ".txt")  # 文件名称的绝对地址
 forwarded_hash_ids_file = os.path.join(directory, str(target_channel_id) + "_hash.txt")  # 文件名称的绝对地址
 
+switch_send_html = True
 switch_download_media = False  # 开启下载，而不是转发数据
+switch_download_telegraph = False  # 是否保存 Telegraph 链接
 switch_save_video_ID = False  # 检测视频重复数据
-switch_save_hash_ID = False  # 检测文件重复数据
+switch_save_hash_ID = True  # 检测文件重复数据
 switch_words = False  # 筛选关键词开关，是否匹配转发
 flag_add_album = False
 switch_message_text = False  # 转发文字消息开关
@@ -90,7 +97,6 @@ title_dict_file = os.path.join(directory, str(target_channel_id) + "title_dict.t
 # 创建一个空字典
 my_dict = {}  # 留言字典
 my_title_dict = {}  # 标题字典
-
 
 # 读取已转发的消息ID
 def load_forwarded_hash_ids():
@@ -223,17 +229,6 @@ async def main():
                 start_id = 300695
                 end_id = 316249
 
-            elif source_channel_id == 7442373184:
-                start_id = 300697
-                end_id = 316234
-
-            elif source_channel_id == 6616647694:
-                start_id = 300705
-                end_id = 316159
-
-            elif source_channel_id == 7387249906:
-                start_id = 300693
-                end_id = 316189
             else:
                 start_id = global_start_id
                 end_id = global_end_id
@@ -260,6 +255,25 @@ async def main():
             # 用于存储当前消息组的消息列表
             current_media_group = []
             current_media_group_title = None
+
+                # 发布超链接到频道
+            if switch_send_html:
+                # 读取文件内容（HTML 格式）
+                with open(send_html_file, "r", encoding="utf-8") as f:
+                    html_content = f.read()
+
+                soup = BeautifulSoup(html_content, "html.parser")
+
+                for a_tag in soup.find_all("a"):
+                    url = a_tag.get("href")
+                    text = a_tag.get_text(strip=True)
+                    if url and text:
+                        message = f'<a href="{url}">{text}</a>'
+                        await client.send_message(target_entity, message, parse_mode='html')
+                        print(f"发布超链接 {text}")
+                print(f"超链接发布完毕")
+                return
+
             # 获取源频道的所有消息并转发到目标频道（从头到尾）
             for batch_start in range(start_id, end_id + 1, 100):
                 messages = await client.get_messages(source_entity,
@@ -268,6 +282,38 @@ async def main():
                     if message is None:
                         # 处理 message 为 None 的情况
                         print(f"{source_channel_id} Message is None. Continuing...")
+                        continue
+
+                    if switch_download_telegraph:
+
+                        if message.entities:
+                            try:
+                                newurl = None
+
+                                # 1. 优先从 entities 中提取链接
+                                for ent in message.entities:
+                                    if hasattr(ent, "url") and ent.url:
+                                        if re.match(r"^https?://telegra\.ph/", ent.url):
+                                            newurl = ent.url
+                                            break
+
+                                # 2. 如果 entities 没有，尝试从 cached_page 里找
+                                if not newurl and hasattr(message, "media") and message.media:
+                                    if hasattr(message.media, "webpage") and message.media.webpage:
+                                        if hasattr(message.media.webpage,
+                                                   "cached_page") and message.media.webpage.cached_page:
+                                            if hasattr(message.media.webpage.cached_page, "url"):
+                                                url = message.media.webpage.cached_page.url
+                                                if url and re.match(r"^https?://telegra\.ph/", url):
+                                                    newurl = url
+
+                                # 3. 保存链接
+                                if newurl:
+                                    await save_telegraph_links(newurl, "telegraph_links_exhentai五星漫画.txt")
+                                    print(f"当前id [{message.id}] ")
+
+                            except Exception as e:
+                                print(f"[×] 提取 telegraph 链接失败: {e} 当前id [{message.id}] ")
                         continue
 
                     # 调用函数并根据返回值进行处理
@@ -526,19 +572,21 @@ def remove_ads(text):
     #特殊处理，现将添加的 "" 去除
     to_remove_list = [
         '搜索引擎一 @ttshaonvchat 搜索引擎二 @ttsososo 搜索引擎三 @ttsouyisou TT防失联总频道 @ttzongb',
-        '[🫥欢迎加入足控恋足会员群]',
-        '👇  # 输入动漫名发送到搜索群👇',
-        '🌿  # 万物可搜， #白嫖更多资源🌿',
+        '[������欢迎加入足控恋足会员群]',
+        '������  # 输入动漫名发送到搜索群������',
+        '������  # 万物可搜， #白嫖更多资源������',
         '== == == == == == == == == == == ==',
-        '🥵  # 女神ai去衣， #点击进群意淫🥵',
+        '������  # 女神ai去衣， #点击进群意淫������',
         '✨  # 入会福利',
-        '🍕  # 无码肉番➕3D成人➕ #绝版漫图',
-        '👇🏻  # 点击下方链接 #自助购买入会👇🏻',
-        '👅AI去衣换脸软件  # 点击了解👅',
-        '[👠足控视频群更多美脚恋足足交舔脚资源，欢迎加入😍😍😍😍]',
+        '������  # 无码肉番➕3D成人➕ #绝版漫图',
+        '������������  # 点击下方链接 #自助购买入会������������',
+        '������AI去衣换脸软件  # 点击了解������',
+        '[������足控视频群更多美脚恋足足交舔脚资源，欢迎加入������������������������]',
         '[  # 全站导航]',
         '[#全站导航]',
         '[ #商务合作]',
+        '关注频道不迷路',
+        'haijiaoshequ_456',
     ]
 
     for item in to_remove_list:
@@ -584,14 +632,14 @@ def remove_ads(text):
                 '翻墙', '机器人', '售后', '进群', '一键关注', '官方合作', 'VPN', '专线', '点亮曝光', '频道互通找到', '@']
 
     #新增添加
-    keywords += ['推荐频道', '老司', '百科', '稳定高速', '地区覆盖', '套餐', '防失联', '老司','优先安排', '帮忙', '条结果', '搜索', '赞助', '查看完整', '频道推送', '@', '私密群', '一键']
+    keywords += ['推荐频道', '老司', '百科', '稳定高速', '地区覆盖', '套餐', '防失联', '老司','优先安排', '帮忙', '条结果', '搜索', '赞助', '查看完整', '频道推送', '@', '私密群', '巨能转载王', '默认值', '更多', 'VIP视频', '跳转到帖子详情', '查看作者其他帖子', '传送门', '导航面板', '一键']
     keywords += ['Free', 'APP','Playstore','Viber', 'Free', 'MDL97', '角色上新', 'AI工具箱', 'AI聊小黄文','女友机器人', '小黄文畅聊', '美图画师', 'AIBox', 'NoveIN', 'AI聊天', 'pixiv', '限时', '自助入群', '吃瓜中心', '频道']
 
     #缅甸语
     keywords += ['သွင်း', 'ပေး', 'ဂိမ်း']
 
     #特殊图标
-    keywords +=['🔞', '👇', '🇯 🇴 🇮 🇳',  '𝗖𝗵𝗮𝗻𝗻𝗲𝗹', '❤', '👉', '👈', '🤵', '📞', '👉🏻', '📱', '💸','⚽', '🎲', '👨‍❤️‍👨', '🎁', '🏦', '🎉', '🏧', '🤗', '💵', '➖', '🔍', '💰', '📣']
+    keywords +=['������', '������', '������ ������ ������ ������',  '������������������������������������������', '❤', '������', '������', '������', '������', '������������', '������', '������','⚽', '������', '������‍❤️‍������', '������', '������', '������', '������', '������', '������', '➖', '������', '������', '������']
 
     #临时
     keywords += ['友情提醒', '= =', '永久ID', '首字母', '曝光投稿看我主页', 'Download', 'DOWNLOAD', 'Full', 'Patreon', 'Link', 'VOL', 'Nhóm tài nguyên ảnh AI chất lượng tốt tại đây', '★', ]
@@ -680,6 +728,8 @@ def add_hash_before_chinese(text):
 
 def fix_pi_spacing(text):
     # 匹配 π 后的数字，然后匹配一个非法字符（_、-、汉字等），替换为一个空格
+    if not text:  # None 或 空字符串
+        return ""
 
     #特殊处理，现将添加的 "" 去除
     to_remove_list = [
@@ -852,6 +902,15 @@ async def download_file(message, download_dir, sem):
 
         except Exception as e:
             print(f"Error downloading message {message.id}: {e}")
+
+async def save_telegraph_links(telegraph_url, target="telegraph_links.txt"):
+        links = re.findall(r"https?://telegra\.ph/\S+", telegraph_url)
+        if links:
+            with open(target, "a", encoding="utf-8") as f:
+                for link in links:
+                    f.write(link + "\n")
+            print(f"[√] 已保存 {len(links)} 个 telegraph 链接 ")
+
 
 async def download_media_group(messages, title, target, max_concurrent_downloads=5):
     """并发下载媒体文件"""

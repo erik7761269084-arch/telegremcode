@@ -9,28 +9,30 @@ from PIL import Image
 from telethon import TelegramClient, events, types
 from telethon.tl.types import  PeerUser, PeerChannel, PeerChat
 from telethon.errors import ChatForwardsRestrictedError, FloodWaitError, WorkerBusyTooLongRetryError
+from bs4 import BeautifulSoup # 使用 BeautifulSoup 解析 HTML
+
 # 使用你从 https://my.telegram.org/auth 获取的API ID和API Hash
-api_id = 21188192
-api_hash = 'e6f77c825e2c10fffdf6a15ffd319193'
+api_id = 28044957
+api_hash = '0ba92315766a94f4b2b1837d5c6df66e'
 
 # 使用你的手机号码
-phone_number = '+4367844176129'
+phone_number = '+447761269084'
 
 # 源频道和目标频道的ID
-# Peertype = 'me':               # 获取 "我的收藏" 用户本身收藏夹
+# Peertype = 'me'              # 获取 "我的收藏" 用户本身收藏夹
 # Peertype = 'robot'             # 对象是机器人的类型的话
 # Peertype = 'PeerUser'          # 个人聊天类型
 Peertype = 'PeerChannel'        #频道类型
 
 
-source_channel_id = 1239249542
+source_channel_id = 1424384184
 target_channel_id = 2711405434
 
 global_send_count = 1   #转发数量最大值数组；
 
 # 指定从哪个 ID 开始和结束
-global_start_id = 3940
-global_end_id = 94878 #
+global_start_id = 1
+global_end_id = 135723
 global_end_id += 1  # 最后一个加一，不然会漏掉最后一个
 
 # 记录最终转发的 ID 号
@@ -56,8 +58,10 @@ switch_account = False  # True
 # 文件路径，用于记录已转发的消息ID
 directory = r"D:\project\python\unique_filename"  # 文件存放路径
 
-# 定义全局变量
+# HTML 文件路径
+send_html_file = r"E:\links.html"
 
+# 定义全局变量
 switch_caption = True       #是否对标题进行处理开关
 switch_del_number = False    # 去除开头的纯数字（可带空格）
 NUMBER_CAP = 1              # 序号标签
@@ -74,8 +78,9 @@ global_TT_link = '\n[极搜导航](http://t.me/ttshaonvchat)\n[soso导航](http:
 forwarded_ids_file = os.path.join(directory, str(target_channel_id) + ".txt")  # 文件名称的绝对地址
 forwarded_hash_ids_file = os.path.join(directory, str(target_channel_id) + "_hash.txt")  # 文件名称的绝对地址
 
+switch_send_html = True
 switch_download_media = False  # 开启下载，而不是转发数据
-switch_download_telegraph = True  # 是否保存 Telegraph 链接
+switch_download_telegraph = False  # 是否保存 Telegraph 链接
 switch_save_video_ID = False  # 检测视频重复数据
 switch_save_hash_ID = True  # 检测文件重复数据
 switch_words = False  # 筛选关键词开关，是否匹配转发
@@ -92,7 +97,6 @@ title_dict_file = os.path.join(directory, str(target_channel_id) + "title_dict.t
 # 创建一个空字典
 my_dict = {}  # 留言字典
 my_title_dict = {}  # 标题字典
-
 
 # 读取已转发的消息ID
 def load_forwarded_hash_ids():
@@ -225,17 +229,6 @@ async def main():
                 start_id = 300695
                 end_id = 316249
 
-            elif source_channel_id == 7442373184:
-                start_id = 300697
-                end_id = 316234
-
-            elif source_channel_id == 6616647694:
-                start_id = 300705
-                end_id = 316159
-
-            elif source_channel_id == 7387249906:
-                start_id = 300693
-                end_id = 316189
             else:
                 start_id = global_start_id
                 end_id = global_end_id
@@ -262,6 +255,25 @@ async def main():
             # 用于存储当前消息组的消息列表
             current_media_group = []
             current_media_group_title = None
+
+                # 发布超链接到频道
+            if switch_send_html:
+                # 读取文件内容（HTML 格式）
+                with open(send_html_file, "r", encoding="utf-8") as f:
+                    html_content = f.read()
+
+                soup = BeautifulSoup(html_content, "html.parser")
+
+                for a_tag in soup.find_all("a"):
+                    url = a_tag.get("href")
+                    text = a_tag.get_text(strip=True)
+                    if url and text:
+                        message = f'<a href="{url}">{text}</a>'
+                        await client.send_message(target_entity, message, parse_mode='html')
+                        print(f"发布超链接 {text}")
+                print(f"超链接发布完毕")
+                return
+
             # 获取源频道的所有消息并转发到目标频道（从头到尾）
             for batch_start in range(start_id, end_id + 1, 100):
                 messages = await client.get_messages(source_entity,
@@ -297,7 +309,7 @@ async def main():
 
                                 # 3. 保存链接
                                 if newurl:
-                                    await save_telegraph_links(newurl, "telegraph_links_543.txt")
+                                    await save_telegraph_links(newurl, "telegraph_links_exhentai五星漫画.txt")
                                     print(f"当前id [{message.id}] ")
 
                             except Exception as e:
