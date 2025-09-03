@@ -25,14 +25,14 @@ phone_number = '+4367844176129'
 Peertype = 'PeerChannel'        #频道类型
 
 
-source_channel_id = 1858127817
-target_channel_id = 3070957658
+source_channel_id = 2090605054
+target_channel_id = 2950267766
 
 global_send_count = 1   #转发数量最大值数组；
 
 # 指定从哪个 ID 开始和结束
-global_start_id = 346
-global_end_id = 1957
+global_start_id = 9001
+global_end_id = 14070
 global_end_id += 1  # 最后一个加一，不然会漏掉最后一个
 
 # 记录最终转发的 ID 号
@@ -64,7 +64,7 @@ telegraph_extra_tag = "#漫画目录一区"
 
 # 定义全局变量
 switch_caption = True       #是否对标题进行处理开关
-switch_del_number = False    # 去除开头的纯数字（可带空格）
+switch_del_number = True    # 去除开头的纯数字（可带空格）
 NUMBER_CAP = 1              # 序号标签
 switch_add_label = False     # 对文字前面加上# 标签
 switch_add_title = False  # 当标题为空时，添加文件名为标题开关
@@ -79,7 +79,7 @@ global_TT_link = '\n[极搜导航](http://t.me/ttshaonvchat)\n[soso导航](http:
 forwarded_ids_file = os.path.join(directory, str(target_channel_id) + ".txt")  # 文件名称的绝对地址
 forwarded_hash_ids_file = os.path.join(directory, str(target_channel_id) + "_hash.txt")  # 文件名称的绝对地址
 
-switch_send_html = True
+switch_send_html = False
 switch_download_media = False  # 开启下载，而不是转发数据
 switch_download_telegraph = False  # 是否保存 Telegraph 链接
 switch_save_video_ID = False  # 检测视频重复数据
@@ -573,16 +573,16 @@ def remove_ads(text):
     #特殊处理，现将添加的 "" 去除
     to_remove_list = [
         '搜索引擎一 @ttshaonvchat 搜索引擎二 @ttsososo 搜索引擎三 @ttsouyisou TT防失联总频道 @ttzongb',
-        '[������欢迎加入足控恋足会员群]',
-        '������  # 输入动漫名发送到搜索群������',
-        '������  # 万物可搜， #白嫖更多资源������',
+        '[🫥欢迎加入足控恋足会员群]',
+        '👇  # 输入动漫名发送到搜索群👇',
+        '🌿  # 万物可搜， #白嫖更多资源🌿',
         '== == == == == == == == == == == ==',
-        '������  # 女神ai去衣， #点击进群意淫������',
+        '🥵  # 女神ai去衣， #点击进群意淫🥵',
         '✨  # 入会福利',
-        '������  # 无码肉番➕3D成人➕ #绝版漫图',
-        '������������  # 点击下方链接 #自助购买入会������������',
-        '������AI去衣换脸软件  # 点击了解������',
-        '[������足控视频群更多美脚恋足足交舔脚资源，欢迎加入������������������������]',
+        '🍕  # 无码肉番➕3D成人➕ #绝版漫图',
+        '👇🏻  # 点击下方链接 #自助购买入会👇🏻',
+        '👅AI去衣换脸软件  # 点击了解👅',
+        '[👠足控视频群更多美脚恋足足交舔脚资源，欢迎加入😍😍😍😍]',
         '[  # 全站导航]',
         '[#全站导航]',
         '[ #商务合作]',
@@ -640,7 +640,7 @@ def remove_ads(text):
     keywords += ['သွင်း', 'ပေး', 'ဂိမ်း']
 
     #特殊图标
-    keywords +=['������', '������', '������ ������ ������ ������',  '������������������������������������������', '❤', '������', '������', '������', '������', '������������', '������', '������','⚽', '������', '������‍❤️‍������', '������', '������', '������', '������', '������', '������', '➖', '������', '������', '������']
+    keywords +=['🔞', '👇', '🇯 🇴 🇮 🇳',  '𝗖𝗵𝗮𝗻𝗻𝗲𝗹', '❤', '👉', '👈', '🤵', '📞', '👉🏻', '📱', '💸','⚽', '🎲', '👨‍❤️‍👨', '🎁', '🏦', '🎉', '🏧', '🤗', '💵', '➖', '🔍', '💰', '📣']
 
     #临时
     keywords += ['友情提醒', '= =', '永久ID', '首字母', '曝光投稿看我主页', 'Download', 'DOWNLOAD', 'Full', 'Patreon', 'Link', 'VOL', 'Nhóm tài nguyên ảnh AI chất lượng tốt tại đây', '★', ]
