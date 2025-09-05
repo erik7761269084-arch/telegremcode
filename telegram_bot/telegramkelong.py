@@ -18,10 +18,10 @@ config_key = {
         "api_hash": "0ba92315766a94f4b2b1837d5c6df66e",
         "phone_number": "+447761269084"                         # 使用你的手机号码
     },
-    "2": {
-        "api_id": 28044957,
-        "api_hash": "0ba92315766a94f4b2b1837d5c6df66e",
-        "phone_number": "+447761269084"  # 使用你的手机号码
+    "4367844176129": {
+        "api_id": 21188192,
+        "api_hash": "e6f77c825e2c10fffdf6a15ffd319193",
+        "phone_number": "+4367844176129"  # 使用你的手机号码
     },
     "3": {
         "api_id": 28044957,
