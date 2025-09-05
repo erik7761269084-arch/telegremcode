@@ -11,29 +11,92 @@ from telethon.tl.types import  PeerUser, PeerChannel, PeerChat
 from telethon.errors import ChatForwardsRestrictedError, FloodWaitError, WorkerBusyTooLongRetryError
 from bs4 import BeautifulSoup # 使用 BeautifulSoup 解析 HTML
 
-# 使用你从 https://my.telegram.org/auth 获取的API ID和API Hash
-api_id = 21188192
-api_hash = 'e6f77c825e2c10fffdf6a15ffd319193'
+# 账号秘钥
+config_key = {
+    "447761269084": {
+        "api_id": 28044957,
+        "api_hash": "0ba92315766a94f4b2b1837d5c6df66e",
+        "phone_number": "+447761269084"                         # 使用你的手机号码
+    },
+    "2": {
+        "api_id": 28044957,
+        "api_hash": "0ba92315766a94f4b2b1837d5c6df66e",
+        "phone_number": "+447761269084"  # 使用你的手机号码
+    },
+    "3": {
+        "api_id": 28044957,
+        "api_hash": "0ba92315766a94f4b2b1837d5c6df66e",
+        "phone_number": "+447761269084"  # 使用你的手机号码
+    }
+}
 
-# 使用你的手机号码
-phone_number = '+4367844176129'
+config = {
+    # 发布超链接到频道
+    "html_sender": {
+        "switch_send_html": False,
+        "send_html_file": r"E:\links.html",
+        "telegraph_extra_tag": "#Bambi #밤비"
+        # "telegraph_extra_tag": "#漫画目录二区"
+    },
+    # 标题处理
+    "caption": {
+        "switch_caption": False,         # 是否对标题进行处理开关.以下开关此开关必须为 True
+        "switch_del_number": False,      # 去除开头的纯数字（可带空格），switch_caption 必须为true
+        "NUMBER_CAP": 1,                 # 序号标签
+        "switch_add_title": False,       # 当标题为空时，添加文件名为标题开关
+        "switch_add_label": False        # 对文字前面加上# 标签
+    },
+    # 自定义标签开关
+    "Label": {
+        "switch_string": False,
+        "global_string": "\n#旧录屏 (2022年之前作品)"
+    },
+}
+
+def select_account(key):
+    account = config_key.get(key)
+    if not account:
+        raise ValueError(f"Key {key} 不存在！")
+    return account["api_id"], account["api_hash"], account["phone_number"]
+
+# 使用示例：
+chosen_key = "447761269084"      # 你想选哪个 key
+api_id, api_hash, phone = select_account(chosen_key)
+
 
 # 源频道和目标频道的ID
-# Peertype = 'me':               # 获取 "我的收藏" 用户本身收藏夹
+# Peertype = 'me'              # 获取 "我的收藏" 用户本身收藏夹
 # Peertype = 'robot'             # 对象是机器人的类型的话
 # Peertype = 'PeerUser'          # 个人聊天类型
 Peertype = 'PeerChannel'        #频道类型
 
 
-source_channel_id = 2090605054
-target_channel_id = 2950267766
+target_channels = {
+    "source_channel_id": 3045559209,
+    "target_channel_id": 2993909759,
+    "健身女孩资源来源": 3026352613,
+    "水果派AV解说福利社": 2090605054,   #14078-14112
+    "水果派收集": 2983201884,
+    "健身女孩收集": 3007997929,
+    "御女宫健身女孩": 2932386237,
+    "御女宫小说频道": 2993909759,
+    "御女宫福利姬频道": 2761208549,
+    "御女宫漫画频道": 2934360954,
+    "御女宫少女阁": 2971937398,
+    "御女宫水果派": 3045559209,
+    "御女宫音乐": 2935049435,
+    "御女宫泳装": 2850188495
+}
 
-global_send_count = 1   #转发数量最大值数组；
+source_channel_id = target_channels["健身女孩资源来源"]
+target_channel_id = target_channels["健身女孩收集"]
 
 # 指定从哪个 ID 开始和结束
-global_start_id = 9001
-global_end_id = 14070
+global_start_id = 51
+global_end_id = 6044
 global_end_id += 1  # 最后一个加一，不然会漏掉最后一个
+
+global_send_count = 1   #转发数量最大值数组;
 
 # 记录最终转发的 ID 号
 final_forwarded_id = None
@@ -59,17 +122,16 @@ switch_account = False  # True
 directory = r"D:\project\python\unique_filename"  # 文件存放路径
 
 # HTML 文件路径
-send_html_file = r"E:\links.html"
-telegraph_extra_tag = "#漫画目录一区"
+switch_send_html = config["html_sender"]["switch_send_html"]
 
 # 定义全局变量
-switch_caption = True       #是否对标题进行处理开关
-switch_del_number = True    # 去除开头的纯数字（可带空格）
-NUMBER_CAP = 1              # 序号标签
-switch_add_label = False     # 对文字前面加上# 标签
-switch_add_title = False  # 当标题为空时，添加文件名为标题开关
-switch_string = False  # 自定义标签开关
-global_string = "\n#欧美口交 #深喉"
+switch_caption = config["caption"]["switch_caption"]           # 是否对标题进行处理开关
+switch_del_number = config["caption"]["switch_del_number"]     # 去除开头的纯数字（可带空格）
+NUMBER_CAP = config["caption"]["NUMBER_CAP"]                   # 序号标签
+switch_add_label = config["caption"]["switch_add_label"]       # 对文字前面加上# 标签
+switch_add_title = config["caption"]["switch_add_title"]       # 当标题为空时，添加文件名为标题开关
+switch_string = config["Label"]["switch_string"]  # 自定义标签开关
+global_string = config["Label"]["global_string"]
 switch_number = False    # 初始化 NUMBER_COUNT，从 1 开始
 NUMBER_COUNT = 1        #从1开始标签号
 switch_TT_link = False
@@ -79,11 +141,11 @@ global_TT_link = '\n[极搜导航](http://t.me/ttshaonvchat)\n[soso导航](http:
 forwarded_ids_file = os.path.join(directory, str(target_channel_id) + ".txt")  # 文件名称的绝对地址
 forwarded_hash_ids_file = os.path.join(directory, str(target_channel_id) + "_hash.txt")  # 文件名称的绝对地址
 
-switch_send_html = False
+switch_send_html = config["html_sender"]["switch_send_html"]
 switch_download_media = False  # 开启下载，而不是转发数据
 switch_download_telegraph = False  # 是否保存 Telegraph 链接
 switch_save_video_ID = False  # 检测视频重复数据
-switch_save_hash_ID = True  # 检测文件重复数据
+switch_save_hash_ID = False  # 检测文件重复数据
 switch_words = False  # 筛选关键词开关，是否匹配转发
 flag_add_album = False
 switch_message_text = False  # 转发文字消息开关
@@ -229,7 +291,6 @@ async def main():
             if source_channel_id == 7487513532:
                 start_id = 300695
                 end_id = 316249
-
             else:
                 start_id = global_start_id
                 end_id = global_end_id
@@ -260,7 +321,7 @@ async def main():
             # 发布超链接到频道
             if switch_send_html:
                 # 读取文件内容（HTML 格式）
-                with open(send_html_file, "r", encoding="utf-8") as f:
+                with open(config["html_sender"]["send_html_file"], "r", encoding="utf-8") as f:
                     html_content = f.read()
 
                 soup = BeautifulSoup(html_content, "html.parser")
@@ -269,7 +330,7 @@ async def main():
                     url = a_tag.get("href")
                     text = a_tag.get_text(strip=True)
                     if url and text:
-                        message = f'<a href="{url}">{text}</a>\n{telegraph_extra_tag}'
+                        message = f'<a href="{url}">{text}</a>\n{config["html_sender"]["telegraph_extra_tag"]}'
                         await client.send_message(target_entity, message, parse_mode='html')
                         print(f"发布超链接 {text}")
                 print(f"超链接发布完毕")
@@ -766,26 +827,26 @@ def process_caption(messages):
             # caption = f'#序号 {NUMBER_CAP}  \n' + caption
             NUMBER_CAP += 1  # 序号
 
-        # if switch_add_label:
-        #     caption = add_hash_before_chinese(caption)  # 在中文面前加 #
-        #     caption = add_hash_inside_brackets(caption) # 匹配中文中括号包裹的词组，例如 【连体黑丝】
-        #     caption = add_hashtags(caption)             # 处理所有包含中文的短语，按分隔符（_ - — 空格）切分加 #
+        if switch_add_label:
+            caption = add_hash_before_chinese(caption)  # 在中文面前加 #
+            caption = add_hash_inside_brackets(caption) # 匹配中文中括号包裹的词组，例如 【连体黑丝】
+            caption = add_hashtags(caption)             # 处理所有包含中文的短语，按分隔符（_ - — 空格）切分加 #
 
     #     caption = modify_string(caption)
-    #
-    # if switch_add_title:
-    #     if not caption:
-    #         if messages[0].document and len(messages[0].document.attributes) > 1:
-    #             file_name = messages[0].document.attributes[1].file_name.split('。mp4')[0]
-    #             file_name = file_name.split('.mp4')[0]
-    #             for c in file_name:
-    #                 if '\u4e00' <= c <= '\u9fff':
-    #                     caption = file_name
-    #                     break
-    #                 if re.search('[a-zA-z]', file_name):
-    #                     caption = file_name
-    #                     break
-    #
+
+    if switch_add_title:
+        if not caption:
+            if messages[0].document and len(messages[0].document.attributes) > 1:
+                file_name = messages[0].document.attributes[1].file_name.split('。mp4')[0]
+                file_name = file_name.split('.mp4')[0]
+                for c in file_name:
+                    if '\u4e00' <= c <= '\u9fff':
+                        caption = file_name
+                        break
+                    if re.search('[a-zA-z]', file_name):
+                        caption = file_name
+                        break
+
     # # 如果字符串长度大于 MAX_LENGTH，截取前 MAX_LENGTH 个字符
     # if caption is not None and len(caption) > MAX_LENGTH:
     #     caption = caption[:MAX_LENGTH]
