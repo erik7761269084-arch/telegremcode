@@ -16,7 +16,7 @@ config_key = {
     "447761269084": {
         "api_id": 28044957,
         "api_hash": "0ba92315766a94f4b2b1837d5c6df66e",
-        "phone_number": "+447761269084"                         # 使用你的手机号码
+        "phone_number": "+447761269084"   # 使用你的手机号码
     },
     "4367844176129": {
         "api_id": 21188192,
@@ -26,17 +26,20 @@ config_key = {
     "447729261613": {
         "api_id": 25464924,
         "api_hash": "227feadd3bf378bf09ed18a57299bea3",
-        "phone_number": "+447729261613"  # 使用你的手机号码
+        "phone_number": "+447729261613"   # 使用你的手机号码
     }
 }
 
 config = {
+
+    # 是否只保存收集 Telegraph 链接
+    "switch_download_telegraph": False,
+
     # 发布超链接到频道
     "html_sender": {
         "switch_send_html": False,
         "send_html_file": r"E:\links.html",
         "telegraph_extra_tag": "#Bambi #밤비"
-        # "telegraph_extra_tag": "#漫画目录二区"
     },
     # 标题处理
     "caption": {
@@ -51,6 +54,17 @@ config = {
         "switch_string": False,
         "global_string": "\n#旧录屏 (2022年之前作品)"
     },
+    # 关键词筛选
+    "Keywords": {
+        "switch_words": True,
+        "target_words": ["香港"]
+    },
+    # 下载视频图片配置
+    "download_media": {
+        "switch_download_media": False,     # 下载频道资源
+        "download_dir": "下载文件名称"        # 下载文件名称
+    },
+
 }
 
 def select_account(key):
@@ -60,7 +74,7 @@ def select_account(key):
     return account["api_id"], account["api_hash"], account["phone_number"]
 
 # 使用示例：
-chosen_key = "4367844176129"      # 你想选哪个 key
+chosen_key = "447761269084"      # 你想选哪个 key
 api_id, api_hash, phone = select_account(chosen_key)
 
 
@@ -72,12 +86,13 @@ Peertype = 'PeerChannel'        #频道类型
 
 
 target_channels = {
-    "source_channel_id": 3045559209,
+    "source_channel_id": 2711405434,
     "target_channel_id": 2993909759,
     "健身女孩资源来源": 3026352613,
     "水果派AV解说福利社": 2090605054,   #14078-14112
-    "水果派收集": 2983201884,
-    "健身女孩收集": 3007997929,
+    "收集水果派": 2983201884,
+    "收集健身女孩": 3007997929,
+    "收集三级片": 2862613270,
     "御女宫健身女孩": 2932386237,
     "御女宫小说频道": 2993909759,
     "御女宫福利姬频道": 2761208549,
@@ -88,12 +103,12 @@ target_channels = {
     "御女宫泳装": 2850188495
 }
 
-source_channel_id = target_channels["健身女孩资源来源"]
-target_channel_id = target_channels["健身女孩收集"]
+source_channel_id = target_channels["source_channel_id"]
+target_channel_id = target_channels["收集三级片"]
 
 # 指定从哪个 ID 开始和结束
-global_start_id = 51
-global_end_id = 6044
+global_start_id = 3229
+global_end_id = 3236
 global_end_id += 1  # 最后一个加一，不然会漏掉最后一个
 
 global_send_count = 1   #转发数量最大值数组;
@@ -142,11 +157,11 @@ forwarded_ids_file = os.path.join(directory, str(target_channel_id) + ".txt")  #
 forwarded_hash_ids_file = os.path.join(directory, str(target_channel_id) + "_hash.txt")  # 文件名称的绝对地址
 
 switch_send_html = config["html_sender"]["switch_send_html"]
-switch_download_media = False  # 开启下载，而不是转发数据
+switch_download_media = config["download_media"]["switch_download_media"]   # 开启下载，而不是转发数据
 switch_download_telegraph = False  # 是否保存 Telegraph 链接
 switch_save_video_ID = False  # 检测视频重复数据
 switch_save_hash_ID = False  # 检测文件重复数据
-switch_words = False  # 筛选关键词开关，是否匹配转发
+switch_words = config["Keywords"]["switch_words"]  # 筛选关键词开关，是否匹配转发
 flag_add_album = False
 switch_message_text = False  # 转发文字消息开关
 
@@ -223,7 +238,7 @@ async def send_message_with_delay(client, target, message):
 def check_sensitive_words(message_content):
     if message_content is None:
         return False
-    target_words = ["一对一", "1对1", "1v1", "1V1", "裸聊", "盯射"]
+    target_words = config["Keywords"]["target_words"]
     contains_target_word = any(word in message_content for word in target_words)
     return contains_target_word
 
@@ -385,8 +400,10 @@ async def main():
                             print("消息中包含敏感词汇")
                             flag_add_album = True
                         else:
+                            flag_add_album = False
                             if current_media_group and current_media_group[0].grouped_id != None and message.grouped_id == current_media_group[0].grouped_id:
                                 print("跟敏感词汇同组")
+                                flag_add_album = True
                             else:
                                 is_sensitive_two = False
                                 if message.document and len(message.document.attributes) > 1:
@@ -634,16 +651,16 @@ def remove_ads(text):
     #特殊处理，现将添加的 "" 去除
     to_remove_list = [
         '搜索引擎一 @ttshaonvchat 搜索引擎二 @ttsososo 搜索引擎三 @ttsouyisou TT防失联总频道 @ttzongb',
-        '[������欢迎加入足控恋足会员群]',
-        '������  # 输入动漫名发送到搜索群������',
-        '������  # 万物可搜， #白嫖更多资源������',
+        '[🫥欢迎加入足控恋足会员群]',
+        '👇  # 输入动漫名发送到搜索群👇',
+        '🌿  # 万物可搜， #白嫖更多资源🌿',
         '== == == == == == == == == == == ==',
-        '������  # 女神ai去衣， #点击进群意淫������',
+        '🥵  # 女神ai去衣， #点击进群意淫🥵',
         '✨  # 入会福利',
-        '������  # 无码肉番➕3D成人➕ #绝版漫图',
-        '������������  # 点击下方链接 #自助购买入会������������',
-        '������AI去衣换脸软件  # 点击了解������',
-        '[������足控视频群更多美脚恋足足交舔脚资源，欢迎加入������������������������]',
+        '🍕  # 无码肉番➕3D成人➕ #绝版漫图',
+        '👇🏻  # 点击下方链接 #自助购买入会👇🏻',
+        '👅AI去衣换脸软件  # 点击了解👅',
+        '[👠足控视频群更多美脚恋足足交舔脚资源，欢迎加入😍😍😍😍]',
         '[  # 全站导航]',
         '[#全站导航]',
         '[ #商务合作]',
@@ -701,7 +718,7 @@ def remove_ads(text):
     keywords += ['သွင်း', 'ပေး', 'ဂိမ်း']
 
     #特殊图标
-    keywords +=['������', '������', '������ ������ ������ ������',  '������������������������������������������', '❤', '������', '������', '������', '������', '������������', '������', '������','⚽', '������', '������‍❤️‍������', '������', '������', '������', '������', '������', '������', '➖', '������', '������', '������']
+    keywords +=['🔞', '👇', '🇯 🇴 🇮 🇳',  '𝗖𝗵𝗮𝗻𝗻𝗲𝗹', '❤', '👉', '👈', '🤵', '📞', '👉🏻', '📱', '💸','⚽', '🎲', '👨‍❤️‍👨', '🎁', '🏦', '🎉', '🏧', '🤗', '💵', '➖', '🔍', '💰', '📣']
 
     #临时
     keywords += ['友情提醒', '= =', '永久ID', '首字母', '曝光投稿看我主页', 'Download', 'DOWNLOAD', 'Full', 'Patreon', 'Link', 'VOL', 'Nhóm tài nguyên ảnh AI chất lượng tốt tại đây', '★', ]
@@ -977,7 +994,7 @@ async def save_telegraph_links(telegraph_url, target="telegraph_links.txt"):
 async def download_media_group(messages, title, target, max_concurrent_downloads=5):
     """并发下载媒体文件"""
     # 创建保存媒体文件的目录
-    download_dir = "快乐屋"
+    download_dir = config["download_media"]["download_dir"]
     if not os.path.exists(download_dir):
         os.makedirs(download_dir)
 
