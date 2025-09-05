@@ -13,8 +13,8 @@
 13、超级索引(不收录)           @CJSY   @CJSYCNBot
 14、快搜(可收录)              @kuai  @kuaisou1_bot
 15、群组大全(不收录)   			@qunzudaquan_bot
-16、Hao123(可收录) 		@Hao1234bot
-17、🔍 TG搜群神器   @searc   @supersobot
+16、Hao123(可收录) 		    @Hao1234bot
+17、TG搜群神器(可收录)  	    @searc   @supersobot
 18、群联索引            @QunLian123bot
 
 
