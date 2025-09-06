@@ -74,7 +74,7 @@ def select_account(key):
     return account["api_id"], account["api_hash"], account["phone_number"]
 
 # 使用示例：
-chosen_key = "447761269084"      # 你想选哪个 key
+chosen_key = "4367844176129"      # 你想选哪个 key
 api_id, api_hash, phone = select_account(chosen_key)
 
 
@@ -86,7 +86,7 @@ Peertype = 'PeerChannel'        #频道类型
 
 
 target_channels = {
-    "source_channel_id": 1784243215,
+    "source_channel_id": 1572778714,
     "target_channel_id": 2993909759,
     "健身女孩资源来源": 3026352613,
     "水果派AV解说福利社": 2090605054,   #14078-14112
@@ -103,13 +103,12 @@ target_channels = {
     "御女宫泳装": 2850188495
 }
 
-# source_channel_id = target_channels["收集三级片"]
 source_channel_id = target_channels["source_channel_id"]
 target_channel_id = target_channels["收集三级片"]
 
 # 指定从哪个 ID 开始和结束
 global_start_id = 1
-global_end_id = 4812
+global_end_id = 6044
 global_end_id += 1  # 最后一个加一，不然会漏掉最后一个
 
 global_send_count = 1   #转发数量最大值数组;
@@ -161,7 +160,7 @@ switch_send_html = config["html_sender"]["switch_send_html"]
 switch_download_media = config["download_media"]["switch_download_media"]   # 开启下载，而不是转发数据
 switch_download_telegraph = config["switch_download_telegraph"]             # 是否保存 Telegraph 链接
 switch_save_video_ID = False  # 检测视频重复数据
-switch_save_hash_ID = False  # 检测文件重复数据
+switch_save_hash_ID = True  # 检测文件重复数据
 switch_words = config["Keywords"]["switch_words"]  # 筛选关键词开关，是否匹配转发
 flag_add_album = False
 switch_message_text = False  # 转发文字消息开关
