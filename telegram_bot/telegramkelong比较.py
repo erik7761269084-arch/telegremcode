@@ -74,7 +74,7 @@ def select_account(key):
     return account["api_id"], account["api_hash"], account["phone_number"]
 
 # 使用示例：
-chosen_key = "447761269084"      # 你想选哪个 key
+chosen_key = "447729261613"      # 你想选哪个 key
 api_id, api_hash, phone = select_account(chosen_key)
 
 
@@ -103,7 +103,6 @@ target_channels = {
     "御女宫泳装": 2850188495
 }
 
-# source_channel_id = target_channels["收集三级片"]
 source_channel_id = target_channels["source_channel_id"]
 target_channel_id = target_channels["收集三级片"]
 
@@ -161,7 +160,7 @@ switch_send_html = config["html_sender"]["switch_send_html"]
 switch_download_media = config["download_media"]["switch_download_media"]   # 开启下载，而不是转发数据
 switch_download_telegraph = config["switch_download_telegraph"]             # 是否保存 Telegraph 链接
 switch_save_video_ID = False  # 检测视频重复数据
-switch_save_hash_ID = False  # 检测文件重复数据
+switch_save_hash_ID = True  # 检测文件重复数据
 switch_words = config["Keywords"]["switch_words"]  # 筛选关键词开关，是否匹配转发
 flag_add_album = False
 switch_message_text = False  # 转发文字消息开关
@@ -652,16 +651,16 @@ def remove_ads(text):
     #特殊处理，现将添加的 "" 去除
     to_remove_list = [
         '搜索引擎一 @ttshaonvchat 搜索引擎二 @ttsososo 搜索引擎三 @ttsouyisou TT防失联总频道 @ttzongb',
-        '[🫥欢迎加入足控恋足会员群]',
-        '👇  # 输入动漫名发送到搜索群👇',
-        '🌿  # 万物可搜， #白嫖更多资源🌿',
+        '[������欢迎加入足控恋足会员群]',
+        '������  # 输入动漫名发送到搜索群������',
+        '������  # 万物可搜， #白嫖更多资源������',
         '== == == == == == == == == == == ==',
-        '🥵  # 女神ai去衣， #点击进群意淫🥵',
+        '������  # 女神ai去衣， #点击进群意淫������',
         '✨  # 入会福利',
-        '🍕  # 无码肉番➕3D成人➕ #绝版漫图',
-        '👇🏻  # 点击下方链接 #自助购买入会👇🏻',
-        '👅AI去衣换脸软件  # 点击了解👅',
-        '[👠足控视频群更多美脚恋足足交舔脚资源，欢迎加入😍😍😍😍]',
+        '������  # 无码肉番➕3D成人➕ #绝版漫图',
+        '������������  # 点击下方链接 #自助购买入会������������',
+        '������AI去衣换脸软件  # 点击了解������',
+        '[������足控视频群更多美脚恋足足交舔脚资源，欢迎加入������������������������]',
         '[  # 全站导航]',
         '[#全站导航]',
         '[ #商务合作]',
@@ -707,7 +706,7 @@ def remove_ads(text):
 
 
     keywords = ['投稿', '点击', '单击', '复制', '口令', '来源', '完整版', '一键脱衣', '一键去衣', '免费脱衣',
-                '脱衣小技巧', '脱衣换脸', '展示区', '更多', '广告', '效果展示', '发张图片试试', '换脸', '更多奶子',
+                '脱衣小技巧', '脱衣换脸', '展示区', '更多', '广告', '效果展示', '发张图片试试', '换脸', '更多奶子', 
                 '可搜', '教程', '发送给我', '中文包', '吃瓜交流圈', '联系', '克隆', '福利索引', '下载', '客服',
                 '翻墙', '机器人', '售后', '进群', '一键关注', '官方合作', 'VPN', '专线', '点亮曝光', '频道互通找到', '@']
 
@@ -719,7 +718,7 @@ def remove_ads(text):
     keywords += ['သွင်း', 'ပေး', 'ဂိမ်း']
 
     #特殊图标
-    keywords +=['🔞', '👇', '🇯 🇴 🇮 🇳',  '𝗖𝗵𝗮𝗻𝗻𝗲𝗹', '❤', '👉', '👈', '🤵', '📞', '👉🏻', '📱', '💸','⚽', '🎲', '👨‍❤️‍👨', '🎁', '🏦', '🎉', '🏧', '🤗', '💵', '➖', '🔍', '💰', '📣']
+    keywords +=['������', '������', '������ ������ ������ ������',  '������������������������������������������', '❤', '������', '������', '������', '������', '������������', '������', '������','⚽', '������', '������‍❤️‍������', '������', '������', '������', '������', '������', '������', '➖', '������', '������', '������']
 
     #临时
     keywords += ['友情提醒', '= =', '永久ID', '首字母', '曝光投稿看我主页', 'Download', 'DOWNLOAD', 'Full', 'Patreon', 'Link', 'VOL', 'Nhóm tài nguyên ảnh AI chất lượng tốt tại đây', '★', ]

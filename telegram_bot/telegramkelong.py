@@ -74,7 +74,7 @@ def select_account(key):
     return account["api_id"], account["api_hash"], account["phone_number"]
 
 # 使用示例：
-chosen_key = "447761269084"      # 你想选哪个 key
+chosen_key = "447729261613"      # 你想选哪个 key
 api_id, api_hash, phone = select_account(chosen_key)
 
 
