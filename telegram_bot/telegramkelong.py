@@ -718,7 +718,7 @@ def remove_ads(text):
     keywords += ['á€á€½á€„á€ºá€¸', 'á€•á€±á€¸', 'á€‚á€­á€™á€ºá€¸']
 
     #ç‰¹æ®Šå›¾æ ‡
-    keywords +=['í ½í´', 'í ½í±‡', 'í ¼í·¯ í ¼í·´ í ¼í·® í ¼í·³',  'í µí·–í µí·µí µí·®í µí·»í µí·»í µí·²í µí·¹', 'â¤', 'í ½í±‰', 'í ½í±ˆ', 'í ¾í´µ', 'í ½í³', 'í ½í±‰í ¼í¿»', 'í ½í³±', 'í ½í²¸','âš½', 'í ¼í¾²', 'í ½í±¨â€â¤ï¸â€í ½í±¨', 'í ¼í¾', 'í ¼í¿¦', 'í ¼í¾‰', 'í ¼í¿§', 'í ¾í´—', 'í ½í²µ', 'â–', 'í ½í´', 'í ½í²°', 'í ½í³£', 'í ½í¸±', 'í ½í¸›', 'í ½í¸•', 'í ½í¸›', 'í ½í¸¯', 'í ¾í´£', 'í ½í¸•', 'í ¾íµ¸', 'í ½í³£', 'í ½í³£', 'í ½í³£', 'í ½í³£']
+    keywords +=['í ½í´', 'í ½í±‡', 'í ¼í·¯ í ¼í·´ í ¼í·® í ¼í·³',  'í µí·–í µí·µí µí·®í µí·»í µí·»í µí·²í µí·¹', 'â¤', 'í ½í±‰', 'í ½í±ˆ', 'í ¾í´µ', 'í ½í³', 'í ½í±‰í ¼í¿»', 'í ½í³±', 'í ½í²¸','âš½', 'í ¼í¾²', 'í ½í±¨â€â¤ï¸â€í ½í±¨', 'í ¼í¾', 'í ¼í¿¦', 'í ¼í¾‰', 'í ¼í¿§', 'í ¾í´—', 'í ½í²µ', 'â–', 'í ½í´', 'í ½í²°', 'í ½í³£']
 
     #ä¸´æ—¶
     keywords += ['å‹æƒ…æé†’', '= =', 'æ°¸ä¹…ID', 'é¦–å­—æ¯', 'æ›å…‰æŠ•ç¨¿çœ‹æˆ‘ä¸»é¡µ', 'Download', 'DOWNLOAD', 'Full', 'Patreon', 'Link', 'VOL', 'NhÃ³m tÃ i nguyÃªn áº£nh AI cháº¥t lÆ°á»£ng tá»‘t táº¡i Ä‘Ã¢y', 'â˜…', ]
@@ -737,9 +737,17 @@ def remove_ads(text):
         formatted_lines[i] = formatted_lines[i].replace('91å°ç”µå½±', '')
         formatted_lines[i] = formatted_lines[i].replace('TTé˜²å¤±è”æ€»é¢‘é“', '')
         formatted_lines[i] = formatted_lines[i].replace('[é¦™æ¸¯_ä¸‰çº§]', '')
+        formatted_lines[i] = formatted_lines[i].replace('[é¦™æ¸¯ä¸‰çº§]', '')
+        formatted_lines[i] = formatted_lines[i].replace('[ä¸‰çº§ç‰‡]', '')
         formatted_lines[i] = formatted_lines[i].replace('[ä¸‰çº§å½±è§† ]', '')
         formatted_lines[i] = formatted_lines[i].replace('ã€æ–°ç‰‡é€Ÿé€’ã€‘', '')
+        formatted_lines[i] = formatted_lines[i].replace('ã€åˆ¶ç‰‡åœ°åŒºã€‘', '')
         formatted_lines[i] = formatted_lines[i].replace('[é¦™æ¸¯ç»å…¸ä¸‰çº§ç³»åˆ—]', '')
+        formatted_lines[i] = formatted_lines[i].replace('#é¦™æ¸¯ä¸‰çº§', '')
+        formatted_lines[i] = formatted_lines[i].replace('ã€ä¸‰çº§ç‰‡åã€', '')
+        formatted_lines[i] = formatted_lines[i].replace('é¦™æ¸¯', '')
+        formatted_lines[i] = formatted_lines[i].replace('#æƒ…è‰²', '')
+        formatted_lines[i] = formatted_lines[i].replace('#é¦™æ¸¯', '')
     #     formatted_lines[i] = re.sub(r'(ã€[^ã€ã€‘]+ã€‘)\1+', r'\1', formatted_lines[i]) #å»æ‰é‡å¤çš„ã€ã€‘ï¼Œä¾‹å¦‚ 'ã€æ¬²å¥³ã€‘ã€æ¬²å¥³ã€‘ #é¦™æ¸¯ä¸‰çº§'
 
     return '\n'.join(formatted_lines)
@@ -843,12 +851,14 @@ def process_caption(messages):
             # caption = f'#åºå· {NUMBER_CAP}  \n' + caption
             NUMBER_CAP += 1  # åºå·
 
+        caption = modify_string(caption)
+
         if switch_add_label:
             caption = add_hash_before_chinese(caption)  # åœ¨ä¸­æ–‡é¢å‰åŠ  #
             caption = add_hash_inside_brackets(caption) # åŒ¹é…ä¸­æ–‡ä¸­æ‹¬å·åŒ…è£¹çš„è¯ç»„ï¼Œä¾‹å¦‚ ã€è¿ä½“é»‘ä¸ã€‘
             caption = add_hashtags(caption)             # å¤„ç†æ‰€æœ‰åŒ…å«ä¸­æ–‡çš„çŸ­è¯­ï¼ŒæŒ‰åˆ†éš”ç¬¦ï¼ˆ_ - â€” ç©ºæ ¼ï¼‰åˆ‡åˆ†åŠ  #
 
-        caption = modify_string(caption)
+
 
     if switch_add_title:
         if not caption:
