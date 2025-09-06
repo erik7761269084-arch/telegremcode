@@ -86,7 +86,7 @@ Peertype = 'PeerChannel'        #频道类型
 
 
 target_channels = {
-    "source_channel_id": 1572778714,
+    "source_channel_id": 1613023089,
     "target_channel_id": 2993909759,
     "健身女孩资源来源": 3026352613,
     "水果派AV解说福利社": 2090605054,   #14078-14112
@@ -108,7 +108,7 @@ target_channel_id = target_channels["收集三级片"]
 
 # 指定从哪个 ID 开始和结束
 global_start_id = 1
-global_end_id = 13281
+global_end_id = 28043
 global_end_id += 1  # 最后一个加一，不然会漏掉最后一个
 
 global_send_count = 1   #转发数量最大值数组;
