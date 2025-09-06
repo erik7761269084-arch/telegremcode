@@ -706,7 +706,7 @@ def remove_ads(text):
 
 
     keywords = ['投稿', '点击', '单击', '复制', '口令', '来源', '完整版', '一键脱衣', '一键去衣', '免费脱衣',
-                '脱衣小技巧', '脱衣换脸', '展示区', '更多', '广告', '效果展示', '发张图片试试', '换脸', '更多奶子',
+                '脱衣小技巧', '脱衣换脸', '展示区', '更多', '广告', '效果展示', '发张图片试试', '换脸', '更多奶子', 
                 '可搜', '教程', '发送给我', '中文包', '吃瓜交流圈', '联系', '克隆', '福利索引', '下载', '客服',
                 '翻墙', '机器人', '售后', '进群', '一键关注', '官方合作', 'VPN', '专线', '点亮曝光', '频道互通找到', '@']
 
@@ -740,7 +740,6 @@ def remove_ads(text):
         formatted_lines[i] = formatted_lines[i].replace('[三级影视 ]', '')
         formatted_lines[i] = formatted_lines[i].replace('【新片速递】', '')
         formatted_lines[i] = formatted_lines[i].replace('[香港经典三级系列]', '')
-    #
     #     formatted_lines[i] = re.sub(r'(【[^【】]+】)\1+', r'\1', formatted_lines[i]) #去掉重复的【】，例如 '【欲女】【欲女】 #香港三级'
 
     return '\n'.join(formatted_lines)
