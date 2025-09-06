@@ -1,6 +1,3 @@
-推荐列表：
-
-无门槛互推
 无门槛互推
 1.和尚互推 @heshanhuitui_bot      0-1k
 2.快粉互推 @kuaifen_bot           0-1k
@@ -28,8 +25,8 @@
 24.美少妇互推 @Meishaofu66bot      0-1k
 25.极狐互推  @jihu_1bot            0-1k
 26.大表哥互推 @dabiaoge66bot       0-1k
-27.饺子互推 @SteweGriffin_bot      0-1k
-28.马化腾互推  @Magyar3bot         0-1k
+27. 
+28.马化腾互推  @Magyar3bot         0-1k 0已满
 29.美团互推 @meituant8bot          0-1k
 30.梦瑶互推机器人 @myht1_bot        0-1k
 31.妞妞流量助手 @nnzy0htbot        0-1k
@@ -39,7 +36,7 @@
 35.宝马互推 @baomahutuibot         0-100-1k
 36.路飞互推 @lufeihutuibot         0-100-1k
 37.小米互推 @xiaomihutuibot        0-100-1k
-38.闲人互推 @xianrenhutuibot   0-100-1k 0已满
+38.闲人互推 @xianrenhutuibot   0-100-1k  
  
 100门槛机器人
 1.集梦互推  @hutui98gbot  100
@@ -80,13 +77,13 @@
 大车1k以上
 1 
 2 十万互推 @shiwandaidui_bot 1k
-3 华人互推 @huarentuibot   
+3 华人互推 @huarentuibot 
 4 天天互推 @TThutuibot
 5 专业互推 @zyehtbot
-6 互推助手 @hutuiZSbot
+6 互推助手 @hutuiZSbot
 7. 全网互推2k @hutuizhongxin_bot
 8. 
-9.次元频道 @cyss_xbot  2k
+9.次元频道 @cyss_xbot  2k
 
 
 超大车
@@ -95,11 +92,14 @@
 
 文件夹互推
 1 一夜互推 @yiyehutui_bot 
-2 大巴车 @dabacheaBot
+2 叮叮文件夹互推@ddfsbbot
+3 大巴车 @dabacheaBot
 3 https://t.me/AddList_a/9
 
+
+
 无反应
-热点互推  @redianhutuibot 0门槛 （点击没反应）
+热点互推  @redianhutuibot 0门槛 （点击没反应）
 夸克互推机器人 @kuakehutuibot 0  （点击没反应） 
 
 
