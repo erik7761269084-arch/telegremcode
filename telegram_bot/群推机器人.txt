@@ -6,7 +6,7 @@
 5.花落引流互推助手 @Hualuoo_bot   0-1k
 6.饺子互推 @SteweGriffin_bot     0-1k
 7.阿萌互推 @amengabot       		0-1k
-8.傻瓜式互推  @shagua68bot        0-1k
+8.傻瓜式互推  @shagua68bot        0-1k 0已满
 9.美女互推 @Meinv68bot            0-1k
 10.精准互推 @Jinzhunhutui_bot    0-1k
 11.热门互推 @Remenhutui_bot       0-1k
@@ -24,7 +24,7 @@
 23.大流量互推首选 @As20250604bot   0-1k
 24.美少妇互推 @Meishaofu66bot      0-1k
 25.极狐互推  @jihu_1bot            0-1k
-26.大表哥互推 @dabiaoge66bot       0-1k
+26.																			
 27.白月光互推  @baitueguangbot     0-1k 
 28.马化腾互推  @Magyar3bot         0-1k 0已满
 29.美团互推 @meituant8bot          0-1k 0已满
@@ -36,7 +36,7 @@
 35.宝马互推 @baomahutuibot         0-100-1k	 ...御女宫未满足条件	
 36.路飞互推 @lufeihutuibot         0-100-1k	 ...御女宫未满足条件	
 37.小米互推 @xiaomihutuibot        0-100-1k   ...御女宫未满足条件
-38.闲人互推 @xianrenhutuibot       0-100-1k   0已满
+38.闲人互推 @xianrenhutuibot       0-100-1k    
  
 100门槛机器人
 1.集梦互推  @hutui98gbot  100 (没反应)
