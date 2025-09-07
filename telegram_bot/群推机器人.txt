@@ -5,7 +5,7 @@
 4.麻将互推 @majiangjiafenbot     0-1k
 5.花落引流互推助手 @Hualuoo_bot   0-1k
 6.饺子互推 @SteweGriffin_bot     0-1k
-7.阿萌互推 @amengabot       0-1k
+7.阿萌互推 @amengabot       		0-1k
 8.傻瓜式互推  @shagua68bot        0-1k
 9.美女互推 @Meinv68bot            0-1k
 10.精准互推 @Jinzhunhutui_bot    0-1k
@@ -32,10 +32,10 @@
 31.妞妞流量助手 @nnzy0htbot        0-1k
 32.刘强东互推  @qiangdddbot        0-1k
 33.谷歌互推  @gugehutuibot         0-1k
-34.筋斗云互推 @jindouyunhutuibot   0-100-1k
-35.宝马互推 @baomahutuibot         0-100-1k
-36.路飞互推 @lufeihutuibot         0-100-1k
-37.小米互推 @xiaomihutuibot        0-100-1k
+34.筋斗云互推 @jindouyunhutuibot   0-100-1k   ...御女宫未满足条件	
+35.宝马互推 @baomahutuibot         0-100-1k	 ...御女宫未满足条件	
+36.路飞互推 @lufeihutuibot         0-100-1k	 ...御女宫未满足条件	
+37.小米互推 @xiaomihutuibot        0-100-1k   ...御女宫未满足条件
 38.闲人互推 @xianrenhutuibot       0-100-1k   0已满
  
 100门槛机器人
@@ -50,7 +50,7 @@
 9.派大星互推 @PDXhutuiBot
 10.精选互推 @HuTuiTopBot
 11.能量互推 @nenglianghutuibot
-12.极搜互推 @hutui1bot @hutui6bot
+12.极搜互推 @hutui1bot @hutui6bot   条件高。多试试
 13.奶头互推 @naitou_bot
 14.雅虎互推 @yahuhtbot 
 15. 西瓜互推 @xghutuibot  100 没反应
@@ -92,7 +92,7 @@
 
 文件夹互推
 1 一夜互推 @yiyehutui_bot 
-2 叮叮文件夹互推@ddfsbbot
+2 叮叮文件夹互推 @ddfsbbot
 3 大巴车 @dabacheaBot
 3 https://t.me/AddList_a/9
 
@@ -104,3 +104,17 @@
 
 
 马斯克互推 @masike520_bot 500
+
+
+
+1、
+👉 克隆互推机器人操作流程：
+1️⃣ 打开 @BotFather
+2️⃣ 发送 /newbot
+3️⃣ 设置 机器人名字，可中文
+4️⃣ 设置 机器人username，英文+数字，需要以bot结尾
+5️⃣ 创建完成后，将注册好的token发送给我
+
+token格式：
+6518000000:AAFf5qWoHFXoTCUIYUJxzWwjHxxxxxxxxxx
+请勿携带其他无用字符，否则可能会克隆失败
