@@ -35,3 +35,17 @@ Search Bot 		@en_SearchBot
 音乐搜索
 1、Let's Music       @VmomoVBot
 2、🎧好音乐搜索   @haoyybot
+
+
+telegraph网图
+图集喵	@TujiMBot
+
+
+电报云盘
+pikPak @PikPak4_Bot  电报资源转pikpak网盘
+蜂巢文件加密		@LockHivebot
+网盘机器人		@WangPanBOT
+媒体加密分享器	@mtjmfxqBOT
+Gooy 文件网盘	@Gooyo_bot
+阿尔法加密云盘 	@aef88888bot
+FilePan网盘		@filepan_bot
