@@ -24,10 +24,10 @@
 23.大流量互推首选 @As20250604bot   0-1k
 24.美少妇互推 @Meishaofu66bot      0-1k
 25.极狐互推  @jihu_1bot            0-1k
-26.索尼互推	 @sonyhutui_bot		  0-1k														
+26.													
 27.白月光互推  @baitueguangbot     0-1k 
-28.马化腾互推  @Magyar3bot         0-1k 0已满
-29.美团互推 @meituant8bot          0-1k 0已满
+28.马化腾互推  @Magyar3bot         0-1k  
+29.美团互推 @meituant8bot          0-1k  
 30.梦瑶互推机器人 @myht1_bot        0-1k
 31.妞妞流量助手 @nnzy0htbot        0-1k
 32.刘强东互推  @qiangdddbot        0-1k
@@ -36,10 +36,11 @@
 35.宝马互推 @baomahutuibot         0-100-1k	 ...御女宫未满足条件	
 36.路飞互推 @lufeihutuibot         0-100-1k	 ...御女宫未满足条件	
 37.小米互推 @xiaomihutuibot        0-100-1k   ...御女宫未满足条件、
-38.闲人互推 @xianrenhutuibot       0-100-1k    
-39.热门互推MAX @remenmaxbot		  0-1k
-40.精品互推联盟 @jphutuibot
-
+38.闲人互推 @xianrenhutuibot       0-100-1k   (没反应) 
+39.大姐姐互推	@Dajie68bot
+40.精品互推联盟  @jphutuibot
+41、
+热门互推MAX @remenmaxbot		  0-1k   暂时0人为空
 目前没人
 卡卡互推	  @kakahutuibot			0-1k
 错过互推机器人 @cuoguohutui_bot  0-1k 
@@ -66,6 +67,7 @@ Good 引流互推  @gvfkf_bot		0-1k
 16.互推      @Hutuijiqiren_bot 100 没反应
 17.色色互推机器人 @sesehutui01bot 100
 18.华人互推机器人 @zyht_bot 100
+19.索尼互推	 @sonyhutui_bot		  100-1k	
 
 200人车队
 1.百度互推 @baiduhutuibot 200   有bug，只记录第一次加入机器人的频道人数
