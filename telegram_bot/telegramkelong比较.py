@@ -7,9 +7,9 @@ import os  # 确保导入 os 模块
 import json
 from PIL import Image
 from telethon import TelegramClient, events, types
-from telethon.tl.types import PeerUser, PeerChannel, PeerChat
+from telethon.tl.types import  PeerUser, PeerChannel, PeerChat
 from telethon.errors import ChatForwardsRestrictedError, FloodWaitError, WorkerBusyTooLongRetryError
-from bs4 import BeautifulSoup   # 使用 BeautifulSoup 解析 HTML
+from bs4 import BeautifulSoup # 使用 BeautifulSoup 解析 HTML
 
 # 账号秘钥
 config_key = {
@@ -67,14 +67,14 @@ config = {
     "html_sender": {
         "switch_send_html": False,
         "send_html_file": r"E:\links.html",
-        "telegraph_extra_tag": "#漫画目录二区"
+        "telegraph_extra_tag": "#Bambi #밤비"
     },
     # 标题处理
     "caption": {
         "switch_caption": False,         # 是否对标题进行处理开关.以下开关此开关必须为 True
         "switch_del_number": False,      # 添加  #序号
-        "NUMBER_CAP": 1,                # #序号 123... 已屏蔽
-        "switch_add_title": False,      # 当标题为空时，添加文件名为标题开关
+        "NUMBER_CAP": 1,                 #序号 123... 已屏蔽
+        "switch_add_title": False,       # 当标题为空时，添加文件名为标题开关
         "switch_add_label": False        # 对文字前面加上# 标签
     },
     # 自定义标签开关
@@ -102,7 +102,7 @@ def select_account(key):
     return account["api_id"], account["api_hash"], account["phone_number"]
 
 # 使用示例：
-chosen_key = "447761269084"      # 你想选哪个 key
+chosen_key = "447729261613"      # 你想选哪个 key
 api_id, api_hash, phone = select_account(chosen_key)
 
 # 源频道和目标频道的ID
@@ -157,7 +157,8 @@ target_channels = {
     "收集三级片未整理去重": 2862613270,
     "收集三级片": 2862613270,
     "收集国产AV": 2900356030,
-    "御女宫国产AV": 2940371573,
+    "御女宫国产av1": 3067771961,
+    "御女宫三级片": 2909770699,
     "御女宫健身女孩": 2932386237,
     "御女宫小说频道": 2993909759,
     "御女宫福利姬频道": 2761208549,
@@ -168,13 +169,12 @@ target_channels = {
     "御女宫泳装": 2850188495
 }
 
-# source_channel_id = target_channels["收集三级片"]
-source_channel_id = target_channels["砂舞C12"]
-target_channel_id = target_channels["VIP砂舞"]
+source_channel_id = target_channels["收集国产AV"]
+target_channel_id = target_channels["御女宫国产av1"]
 
 # 指定从哪个 ID 开始和结束
-global_start_id = 2018
-global_end_id = 9125
+global_start_id = 912
+global_end_id = 5080
 global_end_id += 1  # 最后一个加一，不然会漏掉最后一个
 
 global_send_count = 1   #转发数量最大值数组;
