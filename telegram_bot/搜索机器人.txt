@@ -6,17 +6,20 @@
 6、超级索引(可收录) 		     @suo1234bot
 7、神马搜索(可收录)             @smss   @SM1234Bot
 8、SeSe色色(不收录)            @sese @seseeebot
-9、超级索引(可收录)   	        @SuperSyBot
+9、超级索引(可收录)   	         @SuperSyBot
 10、搜索神器(可收录1000+)      @super   @SearcNBot
 11、达摩索引(可收录1000+)      @damososoBot
 12、羞体(可收录200+)    		@xiuti 
-13、超级索引(不收录)           @CJSY   @CJSYCNBot
+13、超级索引(不收录)          @CJSY   @CJSYCNBot
 14、快搜(可收录)              @kuai  @kuaisou1_bot
-15、群组大全(不收录)   			@qunzudaquan_bot
+15、群组大全(不收录)   		@qunzudaquan_bot
 16、Hao123(可收录) 		    @Hao1234bot
 17、TG搜群神器(可收录)  	    @searc   @supersobot
-18、群联索引            @QunLian123bot
-
+18、群联索引            		@QunLian123bot
+19、中文索引					@teletop @TeleTop123Bot
+20、超级引擎					@cjyq @Tele114bot
+21、中文超索					@ChaoSuoBOT
+22、Ton中文索引				@TonCnBot
 
 资源搜索
 1、消息云☁️          @MsgWikiBot
@@ -24,7 +27,7 @@
 1、动漫搜索 Bot    @dmssrobot
 Search Bot 		@en_SearchBot
 北极星搜索  		@PolarisseekBot
-
+优影臻享			@Youxiu_bot
 
 电影
 一起搜电影               @sotv   @Cctv365bot

@@ -24,7 +24,7 @@
 23.大流量互推首选 @As20250604bot   0-1k
 24.美少妇互推 @Meishaofu66bot      0-1k
 25.极狐互推  @jihu_1bot            0-1k
-26.																			
+26.索尼互推	 @sonyhutui_bot		  0-1k														
 27.白月光互推  @baitueguangbot     0-1k 
 28.马化腾互推  @Magyar3bot         0-1k 0已满
 29.美团互推 @meituant8bot          0-1k 0已满
@@ -35,9 +35,18 @@
 34.筋斗云互推 @jindouyunhutuibot   0-100-1k   ...御女宫未满足条件	、成功：三级、水果派、少女、福利姬、漫画
 35.宝马互推 @baomahutuibot         0-100-1k	 ...御女宫未满足条件	
 36.路飞互推 @lufeihutuibot         0-100-1k	 ...御女宫未满足条件	
-37.小米互推 @xiaomihutuibot        0-100-1k   ...御女宫未满足条件、失败:漫画没成功
+37.小米互推 @xiaomihutuibot        0-100-1k   ...御女宫未满足条件、
 38.闲人互推 @xianrenhutuibot       0-100-1k    
- 
+39.热门互推MAX @remenmaxbot		  0-1k
+40.精品互推联盟 @jphutuibot
+
+目前没人
+卡卡互推	  @kakahutuibot			0-1k
+错过互推机器人 @cuoguohutui_bot  0-1k 
+Good 引流互推  @gvfkf_bot		0-1k
+
+
+
 100门槛机器人
 1.集梦互推  @hutui98gbot  100 (没反应)
 2.搜搜互推 @ZLHTbot 100
@@ -48,7 +57,7 @@
 7. 白冰互推 @baibingbot
 8.夜色撩人 @yslrhutui_bot
 9.派大星互推 @PDXhutuiBot
-10.精选互推 @HuTuiTopBot  (没反应)
+10.精选互推 @HuTuiTopBot   
 11.能量互推 @nenglianghutuibot
 12.极搜互推 @hutui1bot @hutui6bot   条件高。多试试
 13.奶头互推 @naitou_bot
@@ -59,7 +68,7 @@
 18.华人互推机器人 @zyht_bot 100
 
 200人车队
-1.百度互推 @baiduhutuibot 200
+1.百度互推 @baiduhutuibot 200   有bug，只记录第一次加入机器人的频道人数
 2.极光互推 @jiguanghtBot 200
 3.雷电互推 @leidianhutuibot 200
 4.叮当猫互推 @dingdangmbot     200
@@ -84,7 +93,7 @@
 7. 全网互推2k @hutuizhongxin_bot
 8. 
 9.次元频道 @cyss_xbot  2k
-
+尤物互推 @youwuhutuibot
 
 超大车
 1 桃色互推 @taose8_bot  https://t.me/taose88/11
@@ -94,8 +103,13 @@
 1 一夜互推 @yiyehutui_bot 
 2 叮叮文件夹互推 @ddfsbbot
 3 大巴车 @dabacheaBot
-3 https://t.me/AddList_a/9
-
+3 车车互推
+@AddList_aBot
+@AddList_bBot
+@AddList_cBot
+@AddList_dBot
+@AddList_eBot
+@AddList_fBot
 
 
 无反应
@@ -107,7 +121,7 @@
 
 
 
-1、
+1、互推机器人免费克隆 @hutuiadmin_bot
 👉 克隆互推机器人操作流程：
 1️⃣ 打开 @BotFather
 2️⃣ 发送 /newbot
