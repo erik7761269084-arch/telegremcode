@@ -7,9 +7,9 @@ import os  # 确保导入 os 模块
 import json
 from PIL import Image
 from telethon import TelegramClient, events, types
-from telethon.tl.types import  PeerUser, PeerChannel, PeerChat
+from telethon.tl.types import PeerUser, PeerChannel, PeerChat
 from telethon.errors import ChatForwardsRestrictedError, FloodWaitError, WorkerBusyTooLongRetryError
-from bs4 import BeautifulSoup # 使用 BeautifulSoup 解析 HTML
+from bs4 import BeautifulSoup   # 使用 BeautifulSoup 解析 HTML
 
 # 账号秘钥
 config_key = {
@@ -67,7 +67,7 @@ config = {
     "html_sender": {
         "switch_send_html": False,
         "send_html_file": r"E:\links.html",
-        "telegraph_extra_tag": "#Bambi #밤비"
+        "telegraph_extra_tag": "#漫画目录二区"
     },
     # 标题处理
     "caption": {
@@ -102,7 +102,7 @@ def select_account(key):
     return account["api_id"], account["api_hash"], account["phone_number"]
 
 # 使用示例：
-chosen_key = "4367844176129"      # 你想选哪个 key
+chosen_key = "447761269084"      # 你想选哪个 key
 api_id, api_hash, phone = select_account(chosen_key)
 
 # 源频道和目标频道的ID
@@ -150,10 +150,14 @@ target_channels = {
     "VIP母乳C4":   2915798581,
     "健身女孩资源来源": 3026352613,
     "水果派AV解说福利社": 2090605054,   #14078-14112
+    "砂舞C12": 2616708464,
+    "VIP砂舞": 2730009473,
     "收集水果派": 2983201884,
     "收集健身女孩": 3007997929,
     "收集三级片未整理去重": 2862613270,
-    "收集三级片": 3092145294,
+    "收集三级片": 2862613270,
+    "收集国产AV": 2900356030,
+    "御女宫国产AV": 2940371573,
     "御女宫健身女孩": 2932386237,
     "御女宫小说频道": 2993909759,
     "御女宫福利姬频道": 2761208549,
@@ -164,12 +168,13 @@ target_channels = {
     "御女宫泳装": 2850188495
 }
 
-source_channel_id = target_channels["Y1国内柚"]
-target_channel_id = target_channels["VIP国内柚Y1"]
+# source_channel_id = target_channels["收集三级片"]
+source_channel_id = target_channels["砂舞C12"]
+target_channel_id = target_channels["VIP砂舞"]
 
 # 指定从哪个 ID 开始和结束
-global_start_id = 1
-global_end_id = 19645
+global_start_id = 2018
+global_end_id = 9125
 global_end_id += 1  # 最后一个加一，不然会漏掉最后一个
 
 global_send_count = 1   #转发数量最大值数组;
