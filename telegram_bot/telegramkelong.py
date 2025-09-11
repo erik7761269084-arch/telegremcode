@@ -7,9 +7,9 @@ import os  # 确保导入 os 模块
 import json
 from PIL import Image
 from telethon import TelegramClient, events, types
-from telethon.tl.types import  PeerUser, PeerChannel, PeerChat
+from telethon.tl.types import PeerUser, PeerChannel, PeerChat
 from telethon.errors import ChatForwardsRestrictedError, FloodWaitError, WorkerBusyTooLongRetryError
-from bs4 import BeautifulSoup # 使用 BeautifulSoup 解析 HTML
+from bs4 import BeautifulSoup   # 使用 BeautifulSoup 解析 HTML
 
 # 账号秘钥
 config_key = {
@@ -102,18 +102,23 @@ def select_account(key):
     return account["api_id"], account["api_hash"], account["phone_number"]
 
 # 使用示例：
-chosen_key = "447729261613"      # 你想选哪个 key
+chosen_key = "8618033328773"      # 你想选哪个 key
 api_id, api_hash, phone = select_account(chosen_key)
 
-# 源频道和目标频道的ID
-# Peertype = 'me'              # 获取 "我的收藏" 用户本身收藏夹
-# Peertype = 'robot'             # 对象是机器人的类型的话
-# Peertype = 'PeerUser'          # 个人聊天类型
-Peertype = 'PeerChannel'        #频道类型
 
+PeertypeConfig = {
+    "me": "me",                      # 获取 "我的收藏" 用户本身收藏夹
+    "robot": "robot",                # 对象是机器人的类型的话
+    "PeerUser": "PeerUser",          # 个人聊天类型
+    "PeerChannel": "PeerChannel",    # 频道类型
+}
+
+# 源频道和目标频道的ID
+PeertypeSource = PeertypeConfig["PeerChannel"]
+PeertypeTarget = PeertypeConfig["me"]
 target_channels = {
     "source_channel_id": 1572778714,
-    "target_channel_id": 2993909759,
+    "target_channel_id": 7959671508,
     "Y1国内柚": 2287884497,
     "Y2欧美柚": 2265724101,
     "Y3幼童": 2265724101,
@@ -352,21 +357,33 @@ async def main():
 
     async with client:
         # for source_channel_id in source_channel_ids:
-            if Peertype == 'PeerUser':
+            # 源频道
+            if PeertypeSource == 'PeerUser':
                 source_entity = await client.get_entity(PeerUser(source_channel_id))  # 个人聊天 ID
-            elif Peertype == 'PeerChannel':
+            elif PeertypeSource == 'PeerChannel':
                 source_entity = await client.get_entity(PeerChannel(source_channel_id))  # 频道或群组 ID
-            elif Peertype == 'robot':
+            elif PeertypeSource == 'robot':
                 source_entity = await client.get_entity(source_channel_id) #机器人用id
-                # source_entity = await client.get_input_entity(source_channel_id)
-                # source_entity = await client.resolve_peer(source_channel_id)
-            elif Peertype == 'me':
+            elif PeertypeSource == 'me':
                 source_entity = await client.get_entity('me')  # 获取 "我的收藏" 对话
             else:
-                raise ValueError(f"未识别的 Peertype: {Peertype}")
-            target_entity = await client.get_entity(PeerChannel(target_channel_id))
+                raise ValueError(f"未识别的 PeertypeSource: {PeertypeSource}")
+
+            # 目标频道
+            if PeertypeTarget == 'PeerUser':
+                target_entity = await client.get_entity(PeerUser(target_channel_id))  # 个人聊天 ID
+            elif PeertypeTarget == 'PeerChannel':
+                target_entity = await client.get_entity(PeerChannel(target_channel_id))  # 频道或群组 ID
+            elif PeertypeTarget == 'robot':
+                target_entity = await client.get_entity(target_channel_id) #机器人用id
+            elif PeertypeTarget == 'me':
+                target_entity = await client.get_entity('me')  # 获取 "我的收藏" 对话
+            else:
+                raise ValueError(f"未识别的 PeertypeSource: {target_entity}")
+
             # 获取源频道的最新消息，假设你只需要最新的一条消息
             latest_message = await client.get_messages(source_entity, limit=1)
+            start_id = global_start_id
             end_id = latest_message[0].id + 1
 
             if source_channel_id == 7487513532:
