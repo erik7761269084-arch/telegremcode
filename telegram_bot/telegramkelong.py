@@ -105,7 +105,6 @@ def select_account(key):
 chosen_key = "8618033328773"      # 你想选哪个 key
 api_id, api_hash, phone = select_account(chosen_key)
 
-
 PeertypeConfig = {
     "me": "me",                      # 获取 "我的收藏" 用户本身收藏夹
     "robot": "robot",                # 对象是机器人的类型的话

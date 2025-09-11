@@ -7,9 +7,9 @@ import os  # 确保导入 os 模块
 import json
 from PIL import Image
 from telethon import TelegramClient, events, types
-from telethon.tl.types import PeerUser, PeerChannel, PeerChat
+from telethon.tl.types import  PeerUser, PeerChannel, PeerChat
 from telethon.errors import ChatForwardsRestrictedError, FloodWaitError, WorkerBusyTooLongRetryError
-from bs4 import BeautifulSoup   # 使用 BeautifulSoup 解析 HTML
+from bs4 import BeautifulSoup # 使用 BeautifulSoup 解析 HTML
 
 # 账号秘钥
 config_key = {
@@ -67,7 +67,7 @@ config = {
     "html_sender": {
         "switch_send_html": False,
         "send_html_file": r"E:\links.html",
-        "telegraph_extra_tag": "#漫画目录二区"
+        "telegraph_extra_tag": "#Bambi #밤비"
     },
     # 标题处理
     "caption": {
@@ -102,9 +102,8 @@ def select_account(key):
     return account["api_id"], account["api_hash"], account["phone_number"]
 
 # 使用示例：
-chosen_key = "8618033328773"      # 你想选哪个 key
+chosen_key = "447729261613"      # 你想选哪个 key
 api_id, api_hash, phone = select_account(chosen_key)
-
 
 PeertypeConfig = {
     "me": "me",                      # 获取 "我的收藏" 用户本身收藏夹
@@ -174,12 +173,12 @@ target_channels = {
     "御女宫泳装": 2850188495
 }
 
-source_channel_id = target_channels["C14闪现走光"]
-target_channel_id = target_channels["target_channel_id"]
+source_channel_id = target_channels["收集国产AV"]
+target_channel_id = target_channels["御女宫国产av1"]
 
 # 指定从哪个 ID 开始和结束
-global_start_id = 51
-global_end_id = 57945
+global_start_id = 1
+global_end_id = 19645
 global_end_id += 1  # 最后一个加一，不然会漏掉最后一个
 
 global_send_count = 1   #转发数量最大值数组;
