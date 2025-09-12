@@ -50,7 +50,7 @@ def forward_to_channel(update: Update, context: CallbackContext):
                 video=message.video.file_id,
                 caption=cleaned_caption
             )
-            message.reply_text(f"✅ 视频已发布到频道\n🆔 消息ID: {sent.message_id}")
+            message.reply_text(f"✅ 视频已发布到频道\n������ 消息ID: {sent.message_id}")
 
         elif message.photo:  # 图片（选最大分辨率）
             clearest_photo = max(message.photo, key=lambda p: p.width * p.height)
@@ -60,13 +60,13 @@ def forward_to_channel(update: Update, context: CallbackContext):
                 photo=clearest_photo.file_id,
                 caption=cleaned_caption
             )
-            message.reply_text(f"✅ 图片已发布到频道\n🆔 消息ID: {sent.message_id}")
+            message.reply_text(f"✅ 图片已发布到频道\n������ 消息ID: {sent.message_id}")
 
         elif message.text:  # 文本
             cleaned_text = clean_caption(message.text)
             if cleaned_text:
                 sent = context.bot.send_message(chat_id=target_channel_id, text=cleaned_text)
-                message.reply_text(f"✅ 文本已发布到频道\n🆔 消息ID: {sent.message_id}")
+                message.reply_text(f"✅ 文本已发布到频道\n������ 消息ID: {sent.message_id}")
 
     except Exception as e:
         print(f"❌ 出错: {e}")
@@ -96,6 +96,6 @@ dp.add_handler(MessageHandler(Filters.all & ~Filters.command, forward_to_channel
 dp.add_handler(CommandHandler("del", delete_message))
 
 # 启动机器人
-print("🤖 机器人已启动，可以私聊它发送图片/视频/文本，会自动转发到频道，也支持 /del 删除频道消息")
+print("������ 机器人已启动，可以私聊它发送图片/视频/文本，会自动转发到频道，也支持 /del 删除频道消息")
 updater.start_polling()
 updater.idle()
