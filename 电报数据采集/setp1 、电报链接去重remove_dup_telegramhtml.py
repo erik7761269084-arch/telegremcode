@@ -3,6 +3,7 @@
 
 import os
 from bs4 import BeautifulSoup
+from urllib.parse import urlparse
 
 # ==== 配置 ====
 html_dir = r"C:\Users\Admin\Downloads\Telegram Desktop\ChatExport_2025-09-12"
@@ -13,7 +14,7 @@ all_links = set()  # 用 set 自动去重
 
 for root, dirs, files in os.walk(html_dir):
     for file in files:
-        if file.lower().endswith(".html") or file.lower().endswith(".htm"):
+        if file.lower().endswith((".html", ".htm")):
             file_path = os.path.join(root, file)
             with open(file_path, "r", encoding="utf-8") as f:
                 html_content = f.read()
@@ -21,12 +22,13 @@ for root, dirs, files in os.walk(html_dir):
                 for a_tag in soup.find_all("a", href=True):
                     href = a_tag['href'].strip()
                     if href.startswith("https://t.me/"):
-                        # 去掉消息ID或子路径，只保留频道主页
-                        parts = href.split('/')
-                        if len(parts) >= 4:
-                            channel_link = f"{parts[0]}//{parts[2]}/{parts[3]}"
+                        parsed = urlparse(href)
+                        # 去掉 query 和 fragment，只保留 scheme://netloc/path（第一层）
+                        parts = parsed.path.strip("/").split("/")
+                        if parts:  # 只保留频道或群用户名
+                            channel_link = f"{parsed.scheme}://{parsed.netloc}/{parts[0]}"
                         else:
-                            channel_link = href
+                            channel_link = f"{parsed.scheme}://{parsed.netloc}"
                         all_links.add(channel_link)
 
 # ==== 写入到文本文件 ====

@@ -9,7 +9,7 @@ input_file = r"E:\telegremcode\电报数据采集\搜索群名单.txt"
 output_file = r"E:\telegremcode\电报数据采集\搜索群名单_去重.txt"
 
 # 是否按 a-z 排序（True = 排序，False = 保留原始顺序）
-sort_enabled = True
+sort_enabled = False
 
 # 读取文件并去重（保留原始大小写）
 seen = set()
