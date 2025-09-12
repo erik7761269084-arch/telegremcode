@@ -3,6 +3,7 @@
 
 import pymysql
 from urllib.parse import urlparse
+import chardet
 
 # ==== 数据库配置 ====
 db_host = "192.168.1.9"
@@ -15,10 +16,18 @@ db_table = "telegramhtml"
 file_path = r"E:\telegremcode\电报数据采集\only_links.txt"
 
 # ==== 从第几行开始（1 表示第一行，2 表示从第二行开始，以此类推）====
-start_line = 1   # ������ 修改这里即可，比如 100 表示从第100行开始
+start_line = 5401   # ������ 修改这里即可，比如 100 表示从第100行开始
+
+# ==== 自动检测文件编码 ====
+with open(file_path, "rb") as f:
+    raw_data = f.read()
+    result = chardet.detect(raw_data)
+    encoding = result["encoding"] or "utf-8"
+
+print(f"������ 检测到文件编码: {encoding}")
 
 # ==== 读取文件并去重 ====
-with open(file_path, "r", encoding="utf-8") as f:
+with open(file_path, "r", encoding=encoding, errors="ignore") as f:
     all_lines = [line.strip() for line in f if line.strip()]
 
 # 只取从指定行开始的部分
@@ -37,7 +46,7 @@ conn = pymysql.connect(
 )
 cursor = conn.cursor()
 
-# ==== 创建表（如果不存在） ====
+# ==== 创建表（如果不存在）====
 create_table_sql = f"""
 CREATE TABLE IF NOT EXISTS {db_table} (
     id INT AUTO_INCREMENT PRIMARY KEY,

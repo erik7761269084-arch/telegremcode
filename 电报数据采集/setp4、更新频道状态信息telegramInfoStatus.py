@@ -7,17 +7,17 @@ from bs4 import BeautifulSoup
 import re
 import time
 
-# ==== Êı¾İ¿âÅäÖÃ ====
+# ==== æ•°æ®åº“é…ç½® ====
 db_host = "192.168.1.9"
 db_user = "root"
 db_pass = "123456"
 db_name = "telegramsousuo"
 db_table = "telegramhtml"
 
-# ==== Ö¸¶¨ÆğÊ¼ID ====
-start_id = 22  # ´ÓÕâ¸öID¿ªÊ¼´¦Àí£¬¿ÉĞŞ¸Ä
+# ==== æŒ‡å®šèµ·å§‹ID ====
+start_id = 10612  # ä»è¿™ä¸ªIDå¼€å§‹å¤„ç†ï¼Œå¯ä¿®æ”¹
 
-# ==== Á¬½ÓÊı¾İ¿â ====
+# ==== è¿æ¥æ•°æ®åº“ ====
 conn = pymysql.connect(
     host=db_host,
     user=db_user,
@@ -27,18 +27,18 @@ conn = pymysql.connect(
 )
 cursor = conn.cursor()
 
-# ==== »ñÈ¡Ö¸¶¨ÆğÊ¼IDÖ®ºóµÄËùÓĞÁ´½Ó£¬°´ id ÉıĞò ====
+# ==== è·å–æŒ‡å®šèµ·å§‹IDä¹‹åçš„æ‰€æœ‰é“¾æ¥ï¼ŒæŒ‰ id å‡åº ====
 cursor.execute(f"SELECT id, telegramhtml FROM {db_table} WHERE id >= %s ORDER BY id ASC", (start_id,))
 rows = cursor.fetchall()
 
-# ==== ÇëÇóÍ· ====
+# ==== è¯·æ±‚å¤´ ====
 headers = {
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
                   "AppleWebKit/537.36 (KHTML, like Gecko) "
                   "Chrome/117.0.0.0 Safari/537.36"
 }
 
-# ==== ¸üĞÂ SQL ====
+# ==== æ›´æ–° SQL ====
 update_sql = f"""
 UPDATE {db_table}
 SET channel_name=%s, member_count=%s, status=%s
@@ -48,50 +48,50 @@ WHERE id=%s
 updated_count = 0
 
 for rec_id, link in rows:
-    # Ä¬ÈÏÖµ
-    channel_name = "Î´Öª"
+    # é»˜è®¤å€¼
+    channel_name = "æœªçŸ¥"
     member_count = 0
-    status = "Î´Öª"
+    status = "æœªçŸ¥"
 
     try:
         resp = requests.get(link, headers=headers, timeout=10)
         if resp.status_code == 200:
             soup = BeautifulSoup(resp.text, "html.parser")
 
-            # »ñÈ¡ÆµµÀÃû³Æ
+            # è·å–é¢‘é“åç§°
             title_tag = soup.find("div", class_="tgme_page_title")
             if title_tag:
                 channel_name = title_tag.get_text(strip=True)
 
-            # »ñÈ¡³ÉÔ±Êı
+            # è·å–æˆå‘˜æ•°
             members_tag = soup.find("div", class_="tgme_page_extra")
             if members_tag:
                 text = members_tag.get_text(strip=True)
-                # Æ¥ÅäÊı×ÖºÍ¿Õ¸ñ£¬ÀıÈç "104 311"
+                # åŒ¹é…æ•°å­—å’Œç©ºæ ¼ï¼Œä¾‹å¦‚ "104 311"
                 match = re.search(r'([\d\s]+)', text)
                 if match:
-                    # È¥µô¿Õ¸ñÔÙ×ªÕûÊı
+                    # å»æ‰ç©ºæ ¼å†è½¬æ•´æ•°
                     member_count = int(match.group(1).replace(" ", ""))
 
-            # ×´Ì¬ÅĞ¶Ï
-            status = "ÒÑÊ§Ğ§" if channel_name == "Î´Öª" or member_count == 0 else "Õı³£"
+            # çŠ¶æ€åˆ¤æ–­
+            status = "å·²å¤±æ•ˆ" if channel_name == "æœªçŸ¥" or member_count == 0 else "æ­£å¸¸"
 
         else:
-            status = "ÒÑÊ§Ğ§"
+            status = "å·²å¤±æ•ˆ"
 
     except Exception as e:
-        print(f"? ´¦Àí {link} ³ö´í: {e}")
-        status = "ÒÑÊ§Ğ§"
+        print(f"âŒ å¤„ç† {link} å‡ºé”™: {e}")
+        status = "å·²å¤±æ•ˆ"
 
-    # ¸üĞÂÊı¾İ¿â
+    # æ›´æ–°æ•°æ®åº“
     cursor.execute(update_sql, (channel_name, member_count, status, rec_id))
     conn.commit()
     updated_count += 1
-    print(f"? id: {rec_id},{link} -> Ãû³Æ: {channel_name}, ÈËÊı: {member_count}, ×´Ì¬: {status}")
+    print(f"âœ… id: {rec_id},{link} -> åç§°: {channel_name}, äººæ•°: {member_count}, çŠ¶æ€: {status}")
 
-    time.sleep(1)  # ·ÀÖ¹ÇëÇó¹ı¿ì
+    time.sleep(1)  # é˜²æ­¢è¯·æ±‚è¿‡å¿«
 
-# ==== ¹Ø±ÕÊı¾İ¿â ====
+# ==== å…³é—­æ•°æ®åº“ ====
 cursor.close()
 conn.close()
-print(f"? ÒÑ¸üĞÂ {updated_count} Ìõ¼ÇÂ¼")
+print(f"âœ… å·²æ›´æ–° {updated_count} æ¡è®°å½•")

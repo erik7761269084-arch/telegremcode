@@ -1,46 +1,89 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-import os
-import chardet
+import pymysql
+import requests
+from bs4 import BeautifulSoup
+import time
+import re
 
-# 输入文件路径
-input_file = r"E:\telegremcode\电报数据采集\only_links.txt"
-# 输出文件路径
-output_file = r"E:\telegremcode\电报数据采集\only_links_去重.txt"
+# ==== 数据库配置 ====
+db_host = "192.168.1.9"
+db_user = "root"
+db_pass = "123456"
+db_name = "telegramsousuo"
+db_table = "telegramhtml"
 
-# 是否按 a-z 排序（True = 排序，False = 保留原始顺序）
-sort_enabled = False
+# ==== 请求头，伪装浏览器 ====
+HEADERS = {
+    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
+                  "AppleWebKit/537.36 (KHTML, like Gecko) "
+                  "Chrome/139.0.0.0 Safari/537.36"
+}
 
-# 自动检测文件编码
-with open(input_file, "rb") as f:
-    raw_data = f.read()
-    result = chardet.detect(raw_data)
-    encoding = result["encoding"] or "utf-8"
+# ==== 连接数据库 ====
+conn = pymysql.connect(
+    host=db_host,
+    user=db_user,
+    password=db_pass,
+    database=db_name,
+    charset="utf8mb4"
+)
+cursor = conn.cursor()
 
-print(f"📖 检测到文件编码: {encoding}")
+# ==== 获取所有频道链接 ====
+cursor.execute(f"SELECT id, telegramhtml FROM {db_table}")
+rows = cursor.fetchall()
 
-# 读取文件并去重（保留原始大小写）
-seen = set()
-unique_links = []
-with open(input_file, "r", encoding=encoding, errors="ignore") as f:
-    for line in f:
-        link = line.strip()
-        if link and link.lower() not in seen:  # 忽略大小写去重
-            seen.add(link.lower())
-            unique_links.append(link)
+# ==== 更新数据库语句 ====
+update_sql = f"""
+UPDATE {db_table}
+SET channel_name=%s, member_count=%s, status=%s
+WHERE id=%s
+"""
 
-# 可选排序
-if sort_enabled:
-    unique_links = sorted(unique_links, key=lambda x: x.lower())
+updated_count = 0
 
-# 写回去重后的结果
-with open(output_file, "w", encoding="utf-8") as f:
-    for link in unique_links:
-        f.write(link + "\n")
+for rec_id, channel_link in rows:
+    try:
+        # 请求频道网页
+        resp = requests.get(channel_link, headers=HEADERS, timeout=10)
+        if resp.status_code != 200:
+            print(f"⚠️ 无法访问 {channel_link}，状态码 {resp.status_code}")
+            status = "已失效"
+            channel_name = ""
+            member_count = 0
+        else:
+            soup = BeautifulSoup(resp.text, "html.parser")
 
-print(f"✅ 去重完成，结果已保存到 {output_file}，共 {len(unique_links)} 条")
-if sort_enabled:
-    print("🔠 已按 A-Z 排序")
-else:
-    print("📌 保留原始顺序")
+            # 获取频道名称
+            title_tag = soup.find("div", class_="tgme_page_title")
+            channel_name = title_tag.get_text(strip=True) if title_tag else "未知"
+
+            # 获取成员数
+            members_tag = soup.find("div", class_="tgme_page_extra")
+            member_count = 0
+            if members_tag:
+                text = members_tag.get_text(strip=True)
+                match = re.search(r'(\d+)', text)
+                if match:
+                    member_count = int(match.group(1))
+
+            status = "已失效" if channel_name == "未知" or member_count == 0 else "正常"
+
+        # 更新数据库
+        cursor.execute(update_sql, (channel_name, member_count, status, rec_id))
+        conn.commit()
+        updated_count += 1
+        print(f"✅ 更新 {channel_link} -> 名称: {channel_name}, 人数: {member_count}, 状态: {status}")
+
+        # 避免请求过快被封
+        time.sleep(1)
+
+    except Exception as e:
+        print(f"❌ 处理 {channel_link} 出错: {e}")
+        continue
+
+cursor.close()
+conn.close()
+print(f"✅ 数据库更新完成，共更新 {updated_count} 条记录")
