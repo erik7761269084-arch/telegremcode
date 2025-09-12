@@ -1,5 +1,0 @@
-❌ id: 47 处理 https://t.me/kaima 出错: HTTPSConnectionPool(host='t.me', port=443): Max retries exceeded with url: /kaima (Caused by SSLError(SSLEOFError(8, 'EOF occurred in violation of protocol (_ssl.c:1129)')))
-
-
-❌ 处理 https://t.me/asiangirlsss 出错: HTTPSConnectionPool(host='t.me', port=443): Max retries exceeded with url: /asiangirlsss (Caused by SSLError(SSLEOFError(8, 'EOF occurred in violation of protocol (_ssl.c:1129)')))
-✅ id: 85,https://t.me/asiangirlsss -> 名称: 未知, 人数: 0, 状态: 已失效 

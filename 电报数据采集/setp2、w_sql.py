@@ -12,11 +12,20 @@ db_name = "telegramsousuo"
 db_table = "telegramhtml"
 
 # ==== 文件路径 ====
-file_path = r"C:\Users\Admin\Downloads\Telegram Desktop\ChatExport_2025-09-12\output_links.txt"
+file_path = r"E:\telegremcode\电报数据采集\only_links.txt"
+
+# ==== 从第几行开始（1 表示第一行，2 表示从第二行开始，以此类推）====
+start_line = 1   # ������ 修改这里即可，比如 100 表示从第100行开始
 
 # ==== 读取文件并去重 ====
 with open(file_path, "r", encoding="utf-8") as f:
-    links = {line.strip() for line in f if line.strip()}  # 使用 set 去重
+    all_lines = [line.strip() for line in f if line.strip()]
+
+# 只取从指定行开始的部分
+all_lines = all_lines[start_line - 1:]  # 下标从 0 开始，所以减 1
+
+# 使用 set 去重
+links = set(all_lines)
 
 # ==== 连接数据库 ====
 conn = pymysql.connect(
