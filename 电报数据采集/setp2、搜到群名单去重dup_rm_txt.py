@@ -4,9 +4,9 @@
 import os
 
 # 输入文件路径
-input_file = r"E:\telegremcode\电报数据采集\搜索群名单.txt"
+input_file = r"E:\telegremcode\电报数据采集\only_links.txt"
 # 输出文件路径
-output_file = r"E:\telegremcode\电报数据采集\搜索群名单_去重.txt"
+output_file = r"E:\telegremcode\电报数据采集\only_links_去重.txt"
 
 # 是否按 a-z 排序（True = 排序，False = 保留原始顺序）
 sort_enabled = False

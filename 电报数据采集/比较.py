@@ -2,38 +2,45 @@
 # -*- coding: utf-8 -*-
 
 import os
-from bs4 import BeautifulSoup
-from urllib.parse import urlparse
+import chardet
 
-# ==== 配置 ====
-html_dir = r"C:\Users\Admin\Downloads\Telegram Desktop\ChatExport_2025-09-12"
-output_file = os.path.join(html_dir, "output_links.txt")
+# 输入文件路径
+input_file = r"E:\telegremcode\电报数据采集\only_links.txt"
+# 输出文件路径
+output_file = r"E:\telegremcode\电报数据采集\only_links_去重.txt"
 
-# ==== 扫描目录 ====
-all_links = set()  # 用 set 自动去重
+# 是否按 a-z 排序（True = 排序，False = 保留原始顺序）
+sort_enabled = False
 
-for root, dirs, files in os.walk(html_dir):
-    for file in files:
-        if file.lower().endswith((".html", ".htm")):
-            file_path = os.path.join(root, file)
-            with open(file_path, "r", encoding="utf-8") as f:
-                html_content = f.read()
-                soup = BeautifulSoup(html_content, "html.parser")
-                for a_tag in soup.find_all("a", href=True):
-                    href = a_tag['href'].strip()
-                    if href.startswith("https://t.me/"):
-                        parsed = urlparse(href)
-                        # 去掉 query 和 fragment，只保留 scheme://netloc/path（第一层）
-                        parts = parsed.path.strip("/").split("/")
-                        if parts:  # 只保留频道或群用户名
-                            channel_link = f"{parsed.scheme}://{parsed.netloc}/{parts[0]}"
-                        else:
-                            channel_link = f"{parsed.scheme}://{parsed.netloc}"
-                        all_links.add(channel_link)
+# 自动检测文件编码
+with open(input_file, "rb") as f:
+    raw_data = f.read()
+    result = chardet.detect(raw_data)
+    encoding = result["encoding"] or "utf-8"
 
-# ==== 写入到文本文件 ====
+print(f"📖 检测到文件编码: {encoding}")
+
+# 读取文件并去重（保留原始大小写）
+seen = set()
+unique_links = []
+with open(input_file, "r", encoding=encoding, errors="ignore") as f:
+    for line in f:
+        link = line.strip()
+        if link and link.lower() not in seen:  # 忽略大小写去重
+            seen.add(link.lower())
+            unique_links.append(link)
+
+# 可选排序
+if sort_enabled:
+    unique_links = sorted(unique_links, key=lambda x: x.lower())
+
+# 写回去重后的结果
 with open(output_file, "w", encoding="utf-8") as f:
-    for link in sorted(all_links):
+    for link in unique_links:
         f.write(link + "\n")
 
-print(f"✅ 已完成提取 {len(all_links)} 条去重后的 Telegram 频道链接，保存到 {output_file}")
+print(f"✅ 去重完成，结果已保存到 {output_file}，共 {len(unique_links)} 条")
+if sort_enabled:
+    print("🔠 已按 A-Z 排序")
+else:
+    print("📌 保留原始顺序")
