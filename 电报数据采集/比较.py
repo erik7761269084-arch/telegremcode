@@ -2,7 +2,10 @@
 # -*- coding: utf-8 -*-
 
 import pymysql
-from urllib.parse import urlparse
+import requests
+from bs4 import BeautifulSoup
+import re
+import time
 
 # ==== 数据库配置 ====
 db_host = "192.168.1.9"
@@ -10,13 +13,6 @@ db_user = "root"
 db_pass = "123456"
 db_name = "telegramsousuo"
 db_table = "telegramhtml"
-
-# ==== 文件路径 ====
-file_path = r"C:\Users\Admin\Downloads\Telegram Desktop\ChatExport_2025-09-12\output_links.txt"
-
-# ==== 读取文件并去重 ====
-with open(file_path, "r", encoding="utf-8") as f:
-    links = {line.strip() for line in f if line.strip()}  # 使用 set 去重
 
 # ==== 连接数据库 ====
 conn = pymysql.connect(
@@ -28,38 +24,69 @@ conn = pymysql.connect(
 )
 cursor = conn.cursor()
 
-# ==== 创建表（如果不存在） ====
-create_table_sql = f"""
-CREATE TABLE IF NOT EXISTS {db_table} (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    telegramhtml VARCHAR(255) NOT NULL UNIQUE COMMENT '频道链接',
-    channel_name VARCHAR(255) DEFAULT NULL COMMENT '频道名称',
-    status ENUM('正常','已失效') DEFAULT '正常' COMMENT '频道状态',
-    created_at DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-"""
-cursor.execute(create_table_sql)
+# ==== 获取所有链接，按 id 升序 ====
+cursor.execute(f"SELECT id, telegramhtml FROM {db_table} ORDER BY id ASC")
+rows = cursor.fetchall()
 
-# ==== 插入数据，保证唯一性 ====
-insert_sql = f"""
-INSERT IGNORE INTO {db_table} (telegramhtml, channel_name)
-VALUES (%s, %s)
-"""
-inserted_count = 0
-for link in links:
-    # 只保留频道/群主页链接，不要子路径
-    if link.startswith("https://t.me/"):
-        parsed = urlparse(link)
-        path = parsed.path.lstrip('/')
-        if path and '/' not in path:  # 去掉子路径
-            channel_name = path
-            cursor.execute(insert_sql, (link, channel_name))
-            inserted_count += 1
+# ==== 请求头 ====
+headers = {
+    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
+                  "AppleWebKit/537.36 (KHTML, like Gecko) "
+                  "Chrome/139.0.0.0 Safari/537.36"
+}
 
-# ==== 提交事务并关闭 ====
-conn.commit()
+# ==== 更新 SQL ====
+update_sql = f"""
+UPDATE {db_table}
+SET channel_name=%s, member_count=%s, status=%s
+WHERE id=%s
+"""
+
+updated_count = 0
+
+for rec_id, link in rows:
+    # 默认值
+    channel_name = "未知"
+    member_count = 0
+    status = "未知"
+
+    try:
+        resp = requests.get(link, headers=headers, timeout=10)
+        if resp.status_code == 200:
+            soup = BeautifulSoup(resp.text, "html.parser")
+
+            # 获取频道名称
+            title_tag = soup.find("div", class_="tgme_page_title")
+            if title_tag:
+                channel_name = title_tag.get_text(strip=True)
+
+            # 获取成员数
+            members_tag = soup.find("div", class_="tgme_page_extra")
+            if members_tag:
+                text = members_tag.get_text(strip=True)
+                match = re.search(r'(\d+)', text)
+                if match:
+                    member_count = int(match.group(1))
+
+            # 状态判断
+            status = "已失效" if channel_name == "未知" or member_count == 0 else "正常"
+
+        else:
+            status = "已失效"
+
+    except Exception as e:
+        print(f"❌ 处理 {link} 出错: {e}")
+        status = "已失效"
+
+    # 更新数据库
+    cursor.execute(update_sql, (channel_name, member_count, status, rec_id))
+    conn.commit()
+    updated_count += 1
+    print(f"✅ {link} -> 名称: {channel_name}, 人数: {member_count}, 状态: {status}")
+
+    time.sleep(1)  # 防止请求过快
+
+# ==== 关闭数据库 ====
 cursor.close()
 conn.close()
-
-print(f"✅ 已成功写入 {inserted_count} 条数据到 {db_table} 表（重复自动忽略）")
+print(f"✅ 已更新 {updated_count} 条记录")
