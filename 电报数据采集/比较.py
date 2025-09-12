@@ -14,6 +14,9 @@ db_pass = "123456"
 db_name = "telegramsousuo"
 db_table = "telegramhtml"
 
+# ==== 指定起始ID ====
+start_id = 22  # 从这个ID开始处理，可修改
+
 # ==== 连接数据库 ====
 conn = pymysql.connect(
     host=db_host,
@@ -24,15 +27,15 @@ conn = pymysql.connect(
 )
 cursor = conn.cursor()
 
-# ==== 获取所有链接，按 id 升序 ====
-cursor.execute(f"SELECT id, telegramhtml FROM {db_table} ORDER BY id ASC")
+# ==== 获取指定起始ID之后的所有链接，按 id 升序 ====
+cursor.execute(f"SELECT id, telegramhtml FROM {db_table} WHERE id >= %s ORDER BY id ASC", (start_id,))
 rows = cursor.fetchall()
 
 # ==== 请求头 ====
 headers = {
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
                   "AppleWebKit/537.36 (KHTML, like Gecko) "
-                  "Chrome/139.0.0.0 Safari/537.36"
+                  "Chrome/117.0.0.0 Safari/537.36"
 }
 
 # ==== 更新 SQL ====
@@ -64,9 +67,11 @@ for rec_id, link in rows:
             members_tag = soup.find("div", class_="tgme_page_extra")
             if members_tag:
                 text = members_tag.get_text(strip=True)
-                match = re.search(r'(\d+)', text)
+                # 匹配数字和空格，例如 "104 311"
+                match = re.search(r'([\d\s]+)', text)
                 if match:
-                    member_count = int(match.group(1))
+                    # 去掉空格再转整数
+                    member_count = int(match.group(1).replace(" ", ""))
 
             # 状态判断
             status = "已失效" if channel_name == "未知" or member_count == 0 else "正常"
@@ -82,7 +87,7 @@ for rec_id, link in rows:
     cursor.execute(update_sql, (channel_name, member_count, status, rec_id))
     conn.commit()
     updated_count += 1
-    print(f"✅ {link} -> 名称: {channel_name}, 人数: {member_count}, 状态: {status}")
+    print(f"✅ id: {rec_id},{link} -> 名称: {channel_name}, 人数: {member_count}, 状态: {status}")
 
     time.sleep(1)  # 防止请求过快
 
