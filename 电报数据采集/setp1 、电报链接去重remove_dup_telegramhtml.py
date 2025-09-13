@@ -18,7 +18,7 @@ for root, dirs, files in os.walk(html_dir):
             file_path = os.path.join(root, file)
             
             # ✅ 打印当前文件名
-            print(f"正在处理文件: {file}")
+            print(f"正在处理文件: {file_path}")
             
             with open(file_path, "r", encoding="utf-8") as f:
                 html_content = f.read()
