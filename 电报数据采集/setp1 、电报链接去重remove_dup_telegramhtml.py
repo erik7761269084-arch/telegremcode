@@ -16,6 +16,10 @@ for root, dirs, files in os.walk(html_dir):
     for file in files:
         if file.lower().endswith((".html", ".htm")):
             file_path = os.path.join(root, file)
+            
+            # ✅ 打印当前文件名
+            print(f"正在处理文件: {file}")
+            
             with open(file_path, "r", encoding="utf-8") as f:
                 html_content = f.read()
                 soup = BeautifulSoup(html_content, "html.parser")
