@@ -1,0 +1,13 @@
+SELECT * 
+FROM `telegramhtml` 
+WHERE channel_name LIKE '%91%' 
+  AND status = '正常'
+ORDER BY member_count DESC;
+
+
+#统计一共有多少个数据
+SELECT COUNT(*) AS total_count
+FROM `telegramhtml`
+WHERE channel_name LIKE '%深圳%'
+  AND status = '正常';
+
